@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const mongoose = require('mongoose');
+const {v4: uuidv4} = require('uuid');
 // const ExpressError = require('./utils/ExpressError');
 const methodOverride = require("method-override");
 const ejsMate = require('ejs-mate');
@@ -54,6 +55,17 @@ app.use(mongoSanitize({
     replaceWith:'_'
 }));
 
+io.on("connection", (socket) => {
+    socket.on("join-room", (roomId, userId, userName) => {
+      socket.join(roomId);
+      socket.to(roomId).broadcast.emit("user-connected", userId);
+      socket.on("message", (message) => {
+        io.to(roomId).emit("createMessage", message, userName);
+      });
+    });
+  });
+  
+
 const secret = process.env.SECRET || 'thisshouldbeabettersecret!';
 
 const store = MongoDBStore.create({
@@ -101,6 +113,15 @@ app.use((req,res,next)=>{
 
 app.get('/register',async(req,res)=>{
     res.render('reg');
+})
+
+
+app.get("/",(req,res)=>{
+    res.redirect(`/${uuidv4()}`);
+})
+
+app.get("/:rm",(req,res)=>{
+    res.render("room", { roomId: req.params.rm });
 })
 app.post('/register',async(req,res,next)=>{
     try {
