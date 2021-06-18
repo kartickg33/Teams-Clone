@@ -14,8 +14,13 @@ const User = require('./models/user');
 const mongoSanitize = require('express-mongo-sanitize');
 //const helmet = require('helmet');
 const MongoDBStore = require("connect-mongo");
-const server = require('http').Server(app)
-const io = require('socket.io')(server)
+const server = require('http').Server(app) //allows us to create a server to use with socket.io
+const io = require('socket.io')(server,{
+    cors: {
+        origin: "http://localhost:3300",
+        methods: ["GET", "POST"]
+    }
+});
 const { ExpressPeerServer } = require('peer');
 const peerServer = ExpressPeerServer(server, {
   debug: true
@@ -55,16 +60,18 @@ app.use(mongoSanitize({
     replaceWith:'_'
 }));
 
-io.on("connection", (socket) => {
-    socket.on("join-room", (roomId, userId, userName) => {
-      socket.join(roomId);
-      socket.to(roomId).broadcast.emit("user-connected", userId);
-      socket.on("message", (message) => {
-        io.to(roomId).emit("createMessage", message, userName);
-      });
-    });
-  });
+io.on('connection', socket => {
+    socket.on('join-room', (roomId, userId) => {
+      socket.join(roomId)
+      console.log("room id: " + roomId);
+      console.log("user id: "+ userId);
+      socket.to(roomId).broadcast.emit('user-connected', userId)
   
+      socket.on('disconnect', (roomId,userId) => {
+        socket.to(roomId).broadcast.emit('user-disconnected', userId)
+      })
+    })
+  })
 
 const secret = process.env.SECRET || 'thisshouldbeabettersecret!';
 
@@ -120,8 +127,8 @@ app.get("/",(req,res)=>{
     res.redirect(`/${uuidv4()}`);
 })
 
-app.get("/:rm",(req,res)=>{
-    res.render("room", { roomId: req.params.rm });
+app.get("/:rid",(req,res)=>{
+    res.render("videocall.ejs", { roomId: req.params.rid });
 })
 app.post('/register',async(req,res,next)=>{
     try {
@@ -139,7 +146,6 @@ app.post('/register',async(req,res,next)=>{
     }
 })
 
-
-app.listen(port,(req,res)=>{
+server.listen(port,(req,res)=>{
     console.log(`Server is listening on ${port}!`);
 })
