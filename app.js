@@ -27,16 +27,8 @@ if(process.env.NODE_ENV!=="production"){
 const uri = process.env.MONGODB_URI;
 const port = parseInt(process.env.PORT);
 
-const io = require('socket.io')(server,{
-    cors: {
-        origin: "http://localhost:3300",
-        methods: ["GET", "POST"]
-    },
-    allowRequest: (req, callback) => {
-        callback(null, false);
-    },
-    rejectUnauthorized: false
-});
+
+const io = require('socket.io')(server);
 
 
 
@@ -71,10 +63,10 @@ io.on('connection', socket => {
       socket.join(roomId)
       console.log("room id: " + roomId);
       console.log("user id: "+ userId);
-      socket.to(roomId).broadcast.emit('user-connected', userId)
+      socket.to(roomId).emit('user-connected', userId)
   
       socket.on('disconnect', (roomId,userId) => {
-        socket.to(roomId).broadcast.emit('user-disconnected', userId)
+        socket.to(roomId).emit('user-disconnected', userId)
       })
     })
   })
@@ -84,7 +76,6 @@ const secret = process.env.SECRET || 'thisshouldbeabettersecret!';
 const store = MongoDBStore.create({
     mongoUrl: uri,
     secret,
-    touchAfter: 24*60*60
 });
 
 store.on("error",function(e){
@@ -155,4 +146,5 @@ app.post('/register',async(req,res,next)=>{
 server.listen(port,(req,res)=>{
     console.log(`Server is listening on ${port}!`);
 })
+
 

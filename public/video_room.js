@@ -1,9 +1,6 @@
-const socket = io('http://localhost:3300') //server set up at rooms path
-const videoGrid = document.getElementById('video-grid')
-const myPeer = new Peer(undefined, { //create connections between different users using  Web RTC
-  host: '/',// let server create own id in above line using undefined
-  port: '3301'
-})
+const socket = io('ws://localhost:3000') //server set up at rooms path
+var videoGrid = document.getElementById('video-grid')
+var myPeer = new Peer()//create connections between different users using  Web RTC
 const myVideo = document.createElement('video')
 myVideo.muted = true //dont want to hear own voice
 const peers = {} //store user data in call
@@ -13,20 +10,21 @@ navigator.mediaDevices.getUserMedia({
 }).then(stream => {
   addVideoStream(myVideo, stream)
 
-  myPeer.on('call', call => { //when someone joins the video sen him your stream so you can see their video stream
+  myPeer.on('call', call => { //when someone joins the video send him your stream so you can see their video stream
     call.answer(stream)
     const video = document.createElement('video')
     call.on('stream', userVideoStream => {
-      addVideoStream(video, userVideoStream) //add their video to the video stream
+     addVideoStream(video, userVideoStream) //add their video to the video stream
     })
   })//receive calls
 
   socket.on('user-connected', userId => {
-    connectToNewUser(userId, stream)// new user has joined the call so send the video stream to the user
     console.log("user connected: " + userId);
+    connectToNewUser(userId, stream)// new user has joined the call so send the video stream to the user
   })
-})
 
+
+})
 socket.on('user-disconnected', userId => {
   if (peers[userId]) peers[userId].close()
 })
