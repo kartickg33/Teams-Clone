@@ -1,4 +1,4 @@
-const socket = io('127.0.0.1:3300') //server set up at rooms path
+const socket = io('http://localhost:3300') //server set up at rooms path
 const videoGrid = document.getElementById('video-grid')
 const myPeer = new Peer(undefined, { //create connections between different users using  Web RTC
   host: '/',// let server create own id in above line using undefined
@@ -19,7 +19,7 @@ navigator.mediaDevices.getUserMedia({
     call.on('stream', userVideoStream => {
       addVideoStream(video, userVideoStream) //add their video to the video stream
     })
-  })//recieve calls
+  })//receive calls
 
   socket.on('user-connected', userId => {
     connectToNewUser(userId, stream)// new user has joined the call so send the video stream to the user

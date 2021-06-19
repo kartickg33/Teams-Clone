@@ -15,16 +15,10 @@ const mongoSanitize = require('express-mongo-sanitize');
 //const helmet = require('helmet');
 const MongoDBStore = require("connect-mongo");
 const server = require('http').Server(app) //allows us to create a server to use with socket.io
-const io = require('socket.io')(server,{
-    cors: {
-        origin: "http://localhost:3300",
-        methods: ["GET", "POST"]
-    }
-});
-const { ExpressPeerServer } = require('peer');
-const peerServer = ExpressPeerServer(server, {
-  debug: true
-});
+// const { ExpressPeerServer } = require('peer');
+// const peerServer = ExpressPeerServer(server, {
+//   debug: true
+// });
 
 
 if(process.env.NODE_ENV!=="production"){
@@ -32,6 +26,18 @@ if(process.env.NODE_ENV!=="production"){
 }
 const uri = process.env.MONGODB_URI;
 const port = parseInt(process.env.PORT);
+
+const io = require('socket.io')(server,{
+    cors: {
+        origin: "http://localhost:3300",
+        methods: ["GET", "POST"]
+    },
+    allowRequest: (req, callback) => {
+        callback(null, false);
+    },
+    rejectUnauthorized: false
+});
+
 
 
 mongoose.connect(uri,{
@@ -52,7 +58,7 @@ app.engine('ejs',ejsMate);
 app.set('view engine','ejs');
 app.set('views',path.join(__dirname,'views'))
 
-app.use('/peerjs', peerServer);
+// app.use('/peerjs', peerServer);
 app.use(express.urlencoded({extended:true}))
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname,'public')))
@@ -149,3 +155,4 @@ app.post('/register',async(req,res,next)=>{
 server.listen(port,(req,res)=>{
     console.log(`Server is listening on ${port}!`);
 })
+
