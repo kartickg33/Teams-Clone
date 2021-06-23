@@ -63,12 +63,12 @@ io.on('connection', socket => {
       socket.join(roomId)
       console.log("room id: " + roomId);
       console.log("user id: "+ userId);
-      socket.to(roomId).emit('user-connected', userId)
-  
-      socket.on('disconnect', (roomId,userId) => {
-        socket.to(roomId).emit('user-disconnected', userId)
-      })
+      socket.to(roomId).local.emit('user_joined', userId)
     })
+    socket.on('disconnect',(roomId, userId)=>{
+        socket.broadcast.to(roomId).local.emit('user_left',userId)  
+        socket.leave(roomId)
+      })
   })
 
 const secret = process.env.SECRET || 'thisshouldbeabettersecret!';

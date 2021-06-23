@@ -15,18 +15,29 @@ navigator.mediaDevices.getUserMedia({
     const video = document.createElement('video')
     call.on('stream', userVideoStream => {
      addVideoStream(video, userVideoStream) //add their video to the video stream
+     call.on('close', () => {//remove the video if user leave the call
+
+      videoGrid.removeChild(video);
+      video.remove()
+    })
+    socket.on('user_left',userId => {
+      video.remove()
+      peer[userId].close()
+      stream.getTracks()[0].stop()
+    })
+
     })
   })//receive calls
 
-  socket.on('user-connected', userId => {
+  socket.on('user_joined', userId => {
     console.log("user connected: " + userId);
     connectToNewUser(userId, stream)// new user has joined the call so send the video stream to the user
   })
-
-
-})
-socket.on('user-disconnected', userId => {
-  if (peers[userId]) peers[userId].close()
+  socket.on('user_left',userId => {
+    myPeer.destroy()
+    video.remove()
+    stream.getTracks()[0].stop()
+  })
 })
 
 myPeer.on('open', id => {//create a new user id and let your peer join the room...
@@ -40,16 +51,24 @@ function connectToNewUser(userId, stream) {
     addVideoStream(video, userVideoStream)
   })//make calls
   call.on('close', () => {//remove the video if user leave the call
-    video.remove()
+    videoGrid.removeChild(video);
+    video.remove();
   })
+  socket.on('user_left',userId => {
+    video.remove()
+    peer[userId].close()
+    stream.getTracks()[0].stop()
+  })
+
 
   peers[userId] = call //store the user data in the object
 }
+
 
 function addVideoStream(video, stream) {//stream==video call | add our video on the grid call
   video.srcObject = stream 
   video.addEventListener('loadedmetadata', () => {
     video.play() // load the video stream and play your video
   })
-  videoGrid.append(video)
+  videoGrid.appendChild(video)
 }
