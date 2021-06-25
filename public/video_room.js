@@ -1,5 +1,10 @@
-const socket = io('ws://localhost:3000') //server set up at rooms path
+const socket = io('ws://localhost:3000',{ reconnection: true,
+reconnectionDelay: 1000,
+reconnectionDelayMax : 5000,
+reconnectionAttempts: 99999
+}) //server set up at rooms path
 var videoGrid = document.getElementById('video-grid')
+const end = document.getElementById('end_call')
 var myPeer = new Peer()//create connections between different users using  Web RTC
 const myVideo = document.createElement('video')
 myVideo.muted = true //dont want to hear own voice
@@ -15,29 +20,27 @@ navigator.mediaDevices.getUserMedia({
     const video = document.createElement('video')
     call.on('stream', userVideoStream => {
      addVideoStream(video, userVideoStream) //add their video to the video stream
-     call.on('close', () => {//remove the video if user leave the call
+    //  call.on('close', () => {//remove the video if user leave the call
 
-      videoGrid.removeChild(video);
-      video.remove()
-    })
-    socket.on('user_left',userId => {
-      video.remove()
-      peer[userId].close()
-      stream.getTracks()[0].stop()
-    })
+    //   videoGrid.removeChild(video);
+    //   video.remove()
+    // })
+    // socket.on('user_left',userId => {
+      
+    //   video.remove()
+    // })
 
     })
   })//receive calls
+
 
   socket.on('user_joined', userId => {
     console.log("user connected: " + userId);
     connectToNewUser(userId, stream)// new user has joined the call so send the video stream to the user
   })
-  socket.on('user_left',userId => {
-    myPeer.destroy()
-    video.remove()
-    stream.getTracks()[0].stop()
-  })
+  // socket.on('user_left',userId => {
+  //   video.remove()
+  // })
 })
 
 myPeer.on('open', id => {//create a new user id and let your peer join the room...
@@ -50,14 +53,13 @@ function connectToNewUser(userId, stream) {
   call.on('stream', userVideoStream => { //listen to the call and add your video 
     addVideoStream(video, userVideoStream)
   })//make calls
-  call.on('close', () => {//remove the video if user leave the call
+  call.on('close', () => {               //remove the video if user leave the call
     videoGrid.removeChild(video);
     video.remove();
   })
   socket.on('user_left',userId => {
+    
     video.remove()
-    peer[userId].close()
-    stream.getTracks()[0].stop()
   })
 
 
@@ -72,3 +74,4 @@ function addVideoStream(video, stream) {//stream==video call | add our video on 
   })
   videoGrid.appendChild(video)
 }
+

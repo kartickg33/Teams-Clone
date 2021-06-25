@@ -25,8 +25,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "StartS": "nodemon app.js",
-    "StartP": "peerjs --port 3300"
+    "Start_server": "nodemon app.js"
   },
   "author": "",
   "license": "ISC"
