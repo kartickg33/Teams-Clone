@@ -67,7 +67,7 @@ io.on('connection', socket => {
     })
     socket.on('disconnect',(roomId, userId)=>{
         socket.leave(roomId)
-        socket.to(roomId).emit('user_left',userId)  
+        socket.local.emit('user_left',userId)  
       })
   })
 
