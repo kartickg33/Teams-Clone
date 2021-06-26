@@ -1,5 +1,5 @@
 const io = require("socket.io-client");
-const socket = io('ws://peer-connect.herokuapp.com') //server set up
+const socket = io('ws://https://peer-connect.herokuapp.com') //server set up
 /*
 {transports: ['websocket'], upgrade: false}
 */
