@@ -24,19 +24,19 @@ navigator.mediaDevices.getUserMedia({
     //   videoGrid.removeChild(video);
     //   video.remove()
     // })
-    socket.on('user_left',userId => {
+    // socket.on('user_left',userId => {
       
-      video.remove()
-    })
+    //   video.remove()
+    // })
 
     })
   })//receive calls
 
 
 
-  // socket.on('user_left',userId => {
-  //   video.remove()
-  // })
+  socket.on('user_left',userId => {
+    video.remove()
+  })
   socket.on('user_joined', userId => {
     console.log("user connected: " + userId);
     connectToNewUser(userId, stream)// new user has joined the call so send the video stream to the user
@@ -59,10 +59,10 @@ function connectToNewUser(userId, stream) {
   //   videoGrid.removeChild(video);
   //   video.remove();
   // })
-  socket.on('user_left',userId => {
+  // socket.on('user_left',userId => {
     
-    video.remove()
-  })
+  //   video.remove()
+  // })
 
 
   peers[userId] = call //store the user data in the object
