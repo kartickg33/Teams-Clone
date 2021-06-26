@@ -63,11 +63,11 @@ io.on('connection', socket => {
       socket.join(roomId)
       console.log("room id: " + roomId);
       console.log("user id: "+ userId);
-      socket.to(roomId).local.emit('user_joined', userId)
+      socket.to(roomId).emit('user_joined', userId)
     })
     socket.on('disconnect',(roomId, userId)=>{
         socket.leave(roomId)
-        socket.broadcast.emit('user_left',userId)  
+        socket.to(roomId).emit('user_left',userId)  
       })
   })
 
