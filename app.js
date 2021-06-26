@@ -60,13 +60,13 @@ app.use(mongoSanitize({
 
 io.on('connection', socket => {
     socket.on('join-room', (roomId, userId) => {
-      //socket.join(roomId)
+      socket.join(roomId)
       console.log("room id: " + roomId);
       console.log("user id: "+ userId);
       socket.broadcast.emit('user_joined', userId)
     })
     socket.on('disconnect',(roomId, userId)=>{
-        //socket.leave(roomId)
+        socket.leave(roomId)
         socket.broadcast.emit('user_left',userId)  
       })
   })
