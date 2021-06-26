@@ -1,8 +1,13 @@
 const socket = io('https://peer-connect.herokuapp.com/',{ reconnection: true,
 reconnectionDelay: 1000,
 reconnectionDelayMax : 5000,
-reconnectionAttempts: 99999
+reconnectionAttempts: 99999,
+transports: ['websocket'], 
+upgrade: false
 }) //server set up at rooms path
+/*
+{transports: ['websocket'], upgrade: false}
+/*
 var videoGrid = document.getElementById('video-grid')
 const end = document.getElementById('end_call')
 var myPeer = new Peer()//create connections between different users using  Web RTC
