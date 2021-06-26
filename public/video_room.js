@@ -1,4 +1,4 @@
-const socket = io({transports: ['websocket'], upgrade: false}) //server set up
+const socket = io({transports: ['websocket'], upgrade: false,rememberUpgrade:true}) //server set up
 /*
 {transports: ['websocket'], upgrade: false}
 */
