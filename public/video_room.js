@@ -75,3 +75,6 @@ function addVideoStream(video, stream) {//stream==video call | add our video on 
   videoGrid.appendChild(video)
 }
 
+function end_call(){
+  
+}
