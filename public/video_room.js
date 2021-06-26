@@ -7,7 +7,7 @@ upgrade: false
 }) //server set up at rooms path
 /*
 {transports: ['websocket'], upgrade: false}
-/*
+*/
 var videoGrid = document.getElementById('video-grid')
 const end = document.getElementById('end_call')
 var myPeer = new Peer()//create connections between different users using  Web RTC
