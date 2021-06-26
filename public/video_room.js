@@ -1,4 +1,4 @@
-const socket = io('ws://peer-connect.herokuapp.com/',{ reconnection: true,
+const socket = io('',{ reconnection: true,
 reconnectionDelay: 1000,
 reconnectionDelayMax : 5000,
 reconnectionAttempts: 99999,
