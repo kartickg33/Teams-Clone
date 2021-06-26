@@ -1,9 +1,7 @@
-const socket = io('',{ reconnection: true,
+const socket = io('ws:peer-connect.herokuapp.com',{ reconnection: true,
 reconnectionDelay: 1000,
 reconnectionDelayMax : 5000,
-reconnectionAttempts: 99999,
-transports: ['websocket'], 
-upgrade: false
+reconnectionAttempts: 99999
 }) //server set up at rooms path
 /*
 {transports: ['websocket'], upgrade: false}
