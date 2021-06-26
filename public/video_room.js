@@ -43,7 +43,7 @@ navigator.mediaDevices.getUserMedia({
 })
 
 myPeer.on('open', id => {//create a new user id and let your peer join the room...
-  socket.emit('user_joined', ROOM_ID, id)
+  socket.emit('join-room', ROOM_ID, id)
 })
 
 function connectToNewUser(userId, stream) {
