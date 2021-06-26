@@ -8,11 +8,13 @@ var myPeer = new Peer()//create connections between different users using  Web R
 const myVideo = document.createElement('video')
 myVideo.muted = true //dont want to hear own voice
 const peers = {} //store user data in call
+var st;
 navigator.mediaDevices.getUserMedia({
   video: true,
   audio: true
 }).then(stream => {
   addVideoStream(myVideo, stream)
+  st = stream;
 
   myPeer.on('call', call => { //when someone joins the video send him your stream so you can see their video stream
     call.answer(stream)
@@ -33,14 +35,17 @@ navigator.mediaDevices.getUserMedia({
   })//receive calls
 
 
-  socket.on('user_joined', userId => {
-    console.log("user connected: " + userId);
-    connectToNewUser(userId, stream)// new user has joined the call so send the video stream to the user
-  })
+
   // socket.on('user_left',userId => {
   //   video.remove()
   // })
 })
+
+socket.on('user_joined', userId => {
+  console.log("user connected: " + userId);
+  connectToNewUser(userId, st)// new user has joined the call so send the video stream to the user
+})
+
 
 myPeer.on('open', id => {//create a new user id and let your peer join the room...
   socket.emit('join-room', ROOM_ID, id)
@@ -52,10 +57,10 @@ function connectToNewUser(userId, stream) {
   call.on('stream', userVideoStream => { //listen to the call and add your video 
     addVideoStream(video, userVideoStream)
   })//make calls
-  call.on('close', () => {               //remove the video if user leave the call
-    videoGrid.removeChild(video);
-    video.remove();
-  })
+  // call.on('close', () => {               //remove the video if user leave the call
+  //   videoGrid.removeChild(video);
+  //   video.remove();
+  // })
   socket.on('user_left',userId => {
     
     video.remove()
