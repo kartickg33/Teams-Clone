@@ -1,3 +1,4 @@
+const io = require("socket.io-client");
 const socket = io('ws:peer-connect.herokuapp.com',{ reconnection: true,
 reconnectionDelay: 1000,
 reconnectionDelayMax : 5000,
