@@ -30,10 +30,6 @@ navigator.mediaDevices.getUserMedia({
     // })
 
     })
-    socket.on('user_joined', userId => {
-      console.log("user connected: " + userId);
-      connectToNewUser(userId, stream)// new user has joined the call so send the video stream to the user
-    })
   })//receive calls
 
 
@@ -41,7 +37,10 @@ navigator.mediaDevices.getUserMedia({
   // socket.on('user_left',userId => {
   //   video.remove()
   // })
-
+  socket.on('user_joined', userId => {
+    console.log("user connected: " + userId);
+    connectToNewUser(userId, stream)// new user has joined the call so send the video stream to the user
+  })
   myPeer.on('open', id => {//create a new user id and let your peer join the room...
     socket.emit('join-room', ROOM_ID, id)
   })
