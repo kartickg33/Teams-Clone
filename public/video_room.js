@@ -8,13 +8,11 @@ var myPeer = new Peer()//create connections between different users using  Web R
 const myVideo = document.createElement('video')
 myVideo.muted = true //dont want to hear own voice
 const peers = {} //store user data in call
-var st;
 navigator.mediaDevices.getUserMedia({
   video: true,
   audio: true
 }).then(stream => {
   addVideoStream(myVideo, stream)
-  st = stream;
 
   myPeer.on('call', call => { //when someone joins the video send him your stream so you can see their video stream
     call.answer(stream)
@@ -39,11 +37,10 @@ navigator.mediaDevices.getUserMedia({
   // socket.on('user_left',userId => {
   //   video.remove()
   // })
-})
-
-socket.on('user_joined', userId => {
-  console.log("user connected: " + userId);
-  connectToNewUser(userId, st)// new user has joined the call so send the video stream to the user
+  socket.on('user_joined', userId => {
+    console.log("user connected: " + userId);
+    connectToNewUser(userId, stream)// new user has joined the call so send the video stream to the user
+  })
 })
 
 
