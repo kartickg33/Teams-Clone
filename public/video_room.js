@@ -1,4 +1,4 @@
-const socket = io({transports: ['websocket'], upgrade: false,rememberUpgrade:true}) //server set up
+const socket = io({transports: ['websocket'], upgrade: false}) //server set up
 /*
 {transports: ['websocket'], upgrade: false}
 */
@@ -30,10 +30,10 @@ navigator.mediaDevices.getUserMedia({
     //   videoGrid.removeChild(video);
     //   video.remove()
     // })
-    // socket.on('user_left',userId => {
+    socket.on('user_left',userId => {
       
-    //   video.remove()
-    // })
+      video.remove()
+    })
       stop_video.addEventListener("click",()=>{
         toggleVideo(stream);
       });
@@ -47,6 +47,10 @@ navigator.mediaDevices.getUserMedia({
     stop_mic.addEventListener("click",()=>{
       toggleMic(stream);
     });
+    // socket.on('user_left',userId => {
+      
+    //   video.remove()
+    // })
   })//receive calls
 
 
@@ -58,13 +62,11 @@ navigator.mediaDevices.getUserMedia({
     console.log("user connected: " + userId);
     connectToNewUser(userId, stream)// new user has joined the call so send the video stream to the user
   })
+  // socket.on('user_left',userId => {
+  //   video.remove()
+  // })
   
 })
-
-socket.on('user_left',userId => {
-  video.remove()
-})
-
 
 myPeer.on('open', id => {//create a new user id and let your peer join the room...
   socket.emit('join-room', ROOM_ID, id)
@@ -80,10 +82,10 @@ function connectToNewUser(userId, stream) {
   //   videoGrid.removeChild(video);
   //   video.remove();
   // })
-  // socket.on('user_left',userId => {
+  socket.on('user_left',userId => {
     
-  //   video.remove()
-  // })
+    video.remove()
+  })
   stop_video.addEventListener('click',()=>{
     toggleVideo(stream);
   });
@@ -108,11 +110,20 @@ function end_call(){
   
 }
 
+var webcam = true;
 function toggleVideo(stream) {
   if(stream != null && stream.getVideoTracks().length > 0){
     video_switch = !video_switch;
 
     stream.getVideoTracks()[0].enabled = video_switch;
+    if(webcam){
+      stream.getTracks()[0].stop();
+      webcam = false;
+    }
+    else{
+      stream.getTracks()[0].play();
+      webcam = true;
+    }
   }
 
 }
