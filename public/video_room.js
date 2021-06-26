@@ -24,10 +24,10 @@ navigator.mediaDevices.getUserMedia({
     //   videoGrid.removeChild(video);
     //   video.remove()
     // })
-    // socket.on('user_left',userId => {
+    socket.on('user_left',userId => {
       
-    //   video.remove()
-    // })
+      video.remove()
+    })
 
     })
   })//receive calls
