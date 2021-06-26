@@ -1,9 +1,5 @@
 const io = require("socket.io-client");
-const socket = io('ws:peer-connect.herokuapp.com',{ reconnection: true,
-reconnectionDelay: 1000,
-reconnectionDelayMax : 5000,
-reconnectionAttempts: 99999
-}) //server set up at rooms path
+const socket = io('ws://peer-connect.herokuapp.com') //server set up
 /*
 {transports: ['websocket'], upgrade: false}
 */
