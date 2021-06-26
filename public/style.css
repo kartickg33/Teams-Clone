@@ -181,9 +181,9 @@ video {
 #end_call{
   background: snow;
   color:#464675;
-  width:max-content;
+  width:50px;
+  height:50px;
   padding: 25%;
-  display: inline;
   border:none;
   border-radius: 8%;
 

@@ -35,20 +35,20 @@
     <div class="options">
       <div class="options__left">
         <div id="stopVideo" class="options__button">
-          <i class="fa fa-video-camera"></i>
+          <button id="stop_video"><i class="fa fa-video-camera"></i></button>
         </div>
         <div id="muteButton" class="options__button">
-          <i class="fa fa-microphone"></i>
+          <button id="stop_mic"><i class="fa fa-microphone"></i></button>
         </div>
         <div id="showChat" class="options__button">
-          <i class="fa fa-comment"></i>
+          <button><i class="fa fa-comment"></i></button>
         </div>
       </div>
       <div class="options__right">
         <div id="inviteButton" class="options__button">
-          <i class="fa fa-user-plus"></i> 
+          <button><i class="fa fa-user-plus"></i></button>
+          <button id="end_call" onclick="end_call()">End Call</button> 
         </div>
-        <button id="end_call" onclick="end_call()">End Call</button>
       </div>
     </div>
   </div>
