@@ -1,0 +1,104 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+
+
+*{
+    font-family: "Poppins", sans-serif;
+}
+
+body{
+    background: #232526;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #414345, #232526);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #414345, #232526); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+
+#main-heading{
+    color:snow;
+    font-size: 40px;
+    margin-left: 2%;
+    margin-top: 3%;
+    margin-bottom: 1.5%;
+}
+#main{
+    margin-left:2%;
+    background: rgba( 0, 0, 0, 0.5 );
+    box-shadow: 0 8px 32px 0 rgba( 23, 56, 12, 0.2 );
+    backdrop-filter: blur( 6.5px );
+    -webkit-backdrop-filter: blur( 6.5px );
+    border-radius: 10px;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    max-width:1000px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height:500px;
+    max-height: max-content;
+    align-items: center;
+}
+
+.bi-camera-video,.bi-mic,.bi-person-plus{
+    color:white;
+    font-size:27px;
+}
+#video,#mic{
+    background: transparent;
+    padding: 0.5%;
+    border: 1px solid snow;
+    outline:none;
+    border-radius: 9px;
+    margin: 2%;
+}
+#end_call{
+    margin-left:9%;
+    background: red;
+    color:snow;
+    font-size: 20px;
+    padding:1%;
+    border-radius: 9px;
+    border:none;
+}
+#invite{
+    background: transparent;
+    padding: 0.5%;
+    border: 1px solid snow;
+    outline:none;
+    border-radius: 9px;
+    margin-left: 23.7%;
+}
+/* .bi-camera-video:hover,.bi-mic:hover,.bi-person-plus:hover{
+    color:black;
+    transition: .4s ease-in;
+}
+#video:hover,#mic:hover,#invite:hover{
+    background:white;
+    color:black;
+    transition:.4s ease-in-out
+} */
+/* #options{
+    margin-left:2%;
+    margin-top:2%;
+    border-radius: 8%;
+    background: #1d1b1c;
+    box-shadow: inset 14px 14px 29px #191718,
+                inset -14px -14px 29px #211f20;
+    width:1000px;
+} */
+
+video{
+    width:400px;
+    height:300px;
+    object-fit: cover;
+    border-radius: 9px;
+    border: 2px solid white;
+    margin: 20px;
+}
+#vid_text{
+    margin-left:-1.4%;
+    margin-right: 1%;
+    color:white;
+}
+#mic_text{
+    margin-left:-1.4%;
+    margin-right: 1%;
+    color:white;
+}

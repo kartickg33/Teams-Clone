@@ -60,13 +60,13 @@ app.use(mongoSanitize({
 
 io.on('connection', socket => {
     socket.on('join-room', (roomId, userId) => {
-      socket.join(roomId)
+      socket.join(roomId, userId)
       console.log("room id: " + roomId);
       console.log("user id: "+ userId);
       socket.to(roomId).emit('user_joined', userId)
     })
     socket.on('disconnect',(roomId, userId)=>{
-        socket.leave(roomId)
+        socket.leave(roomId,userId)
         socket.broadcast.emit('user_left',userId) 
       })
   })
@@ -118,14 +118,16 @@ app.use((req,res,next)=>{
 app.get('/register',async(req,res)=>{
     res.render('reg');
 })
-
+// app.get('/room',(req,res)=>{
+//     res.render('video-room');
+// })
 
 app.get("/",(req,res)=>{
     res.redirect(`/${uuidv4()}`);
 })
 
 app.get("/:rid",(req,res)=>{
-    res.render("videocall.ejs", { roomId: req.params.rid });
+    res.render("video-room", { roomId: req.params.rid });
 })
 app.post('/register',async(req,res,next)=>{
     try {
