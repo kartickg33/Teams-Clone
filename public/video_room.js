@@ -11,8 +11,8 @@ var videoGrid = document.getElementById('video-grid');
 const end = document.getElementById('end_call');
 var vid_text = document.getElementById('vid_text');
 var mic_text = document.getElementById('mic_text');
-var mic_switch = true;
-var video_switch = true;
+var mic_change = document.getElementById('mic_change');
+var video_change = document.getElementById('video_change');
 
 var myPeer = new Peer()//create connections between different users using  Web RTC
 const myVideo = document.createElement('video')
@@ -120,16 +120,18 @@ function end_call(){
 function toggleVideo(stream) {
   stream.getVideoTracks()[0].enabled = !stream.getVideoTracks()[0].enabled ;
   if(!stream.getVideoTracks()[0].enabled){
-    icon_video.style.color = "red";
-    stop_video.style.backgroundColor = "white";
-    icon_video.style.transition = "0.2s ease-in";
+    video_change.innerHTML = `<i class="bi bi-camera-video-off" id="icon"></i>`;
+    document.querySelector('.bi-camera-video-off').style.color = "white";
+    stop_video.style.backgroundColor = "red";
+    document.querySelector('.bi-camera-video-off').style.transition = "0.2s ease-in";
     stop_video.style.transition = "0.2s ease-in";
     vid_text.innerHTML = "Start Video";
   }
   else{
-    icon_video.style.color = "white";
-    stop_video.style.backgroundColor = "transparent";
-    icon_video.style.transition = "0.2s ease-in";
+    video_change.innerHTML = `<i class="bi bi-camera-video" id="icon"></i>`
+    document.querySelector('.bi-camera-video').style.color = "white";
+    stop_video.style.backgroundColor = "#147502";
+    document.querySelector('.bi-camera-video').style.transition = "0.2s ease-in";
     stop_video.style.transition = "0.2s ease-in";
     vid_text.innerHTML = "Stop Video";
   }
@@ -140,17 +142,19 @@ function toggleMic(stream) {
 
   stream.getAudioTracks()[0].enabled = !stream.getAudioTracks()[0].enabled;
   if(stream.getAudioTracks()[0].enabled==false){
-    icon_mic.style.color = "red";
-    stop_mic.style.backgroundColor = "white";
-    icon_mic.style.transition = "0.2s";
+    mic_change.innerHTML = `<i class="bi bi-mic-mute" id="icon"></i>`
+    document.querySelector('.bi-mic-mute').style.color = "white";
+    stop_mic.style.backgroundColor = "red";
+    document.querySelector('.bi-mic-mute').style.transition = "0.2s";
     stop_mic.style.transition = "0.2s";
     mic_text.innerHTML = "Unmute";
     console.log("unmute")
   }
   else{
-    icon_mic.style.color = "white";
-    stop_mic.style.backgroundColor = "transparent";
-    icon_mic.style.transition = "0.2s";
+    mic_change.innerHTML = `<i class="bi bi-mic" id="icon"></i>`
+    document.querySelector('.bi-mic').style.color = "white";
+    stop_mic.style.backgroundColor = "#147502";
+    document.querySelector('.bi-mic').style.transition = "0.2s";
     stop_mic.style.transition = "0.2s";
     mic_text.innerHTML = "Mute";
     console.log('mute')
