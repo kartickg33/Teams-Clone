@@ -126,9 +126,14 @@ app.get("/",(req,res)=>{
     res.redirect(`/${uuidv4()}`);
 })
 
+app.get("/endcall",(req,res)=>{
+    res.render("leave.ejs");
+})
+
 app.get("/:rid",(req,res)=>{
     res.render("video-room", { roomId: req.params.rid });
 })
+
 app.post('/register',async(req,res,next)=>{
     try {
         const { email, username, password } = req.body;

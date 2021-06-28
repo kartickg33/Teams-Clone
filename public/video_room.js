@@ -30,6 +30,15 @@ navigator.mediaDevices.getUserMedia({
   stop_mic.addEventListener("click",()=>{
     toggleMic(stream);
   });
+  socket.on('user_left',userId => {
+      
+    video.remove()
+    var i = 0;
+    while(i<1){
+     location.reload();
+     i++;
+    }
+ })
   myPeer.on('call', call => { //when someone joins the video send him your stream so you can see their video stream
     call.answer(stream)
     const video = document.createElement('video')
@@ -87,7 +96,7 @@ function connectToNewUser(userId, stream) {
   call.on('stream', userVideoStream => { //listen to the call and add your video 
     addVideoStream(video, userVideoStream)
     socket.on('user_left',userId => {
-    
+
       video.remove()
     })
   })//make calls
