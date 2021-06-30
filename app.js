@@ -79,10 +79,9 @@ io.on('connection', socket => {
         socket.to(roomId).emit('receive-msg',{msg: msg, name: users[socket.id]});
     });
 
-    socket.on('disconnect',(roomId, userId)=>{
+    socket.on('leave-room',(roomId,userId)=>{ 
         socket.leave(roomId,userId);
-        socket.broadcast.emit('user_left',userId); 
-        socket.broadcast.emit('user-left-chat',users[socket.id]);
+        socket.to(roomId).emit('user-left',users[socket.id]);
         delete users[socket.id];
     });
   });
@@ -134,9 +133,7 @@ app.use((req,res,next)=>{
 app.get('/register',async(req,res)=>{
     res.render('reg');
 })
-// app.get('/room',(req,res)=>{
-//     res.render('video-room');
-// })
+
 
 app.get("/",(req,res)=>{
     res.redirect(`/${uuidv4()}`);

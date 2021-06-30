@@ -31,30 +31,17 @@ navigator.mediaDevices.getUserMedia({
     toggleMic(stream);
   });
 
-  socket.on('user_left',userId=>{
-    video.remove()
-    var i = 0;
-    while(i<1){
-      location.reload();
-      i++;
-    }
-  })
 
   myPeer.on('call', call => { //when someone joins the video send him your stream so you can see their video stream
     call.answer(stream)
     const video = document.createElement('video')
-    socket.on('user_left',userId => {
-
-      video.remove()
-      var i = 0;
-      while(i<1){
-       location.reload();
-       i++;
-      }
-    })
 
     call.on('stream', userVideoStream => {
      addVideoStream(video, userVideoStream)
+     call.on('close', () => {               //remove the video if user leave the call
+      video.remove();
+      // socket.emit('leave-room',ROOM_ID);
+      });
      //add their video to the video stream
       //  call.on('close', () => {//remove the video if user leave the call
 
@@ -67,12 +54,16 @@ navigator.mediaDevices.getUserMedia({
   socket.on('user_joined', userId => {
     console.log("user connected: " + userId);
     connectToNewUser(userId, stream)// new user has joined the call so send the video stream to the user
-  })
-})
+  });
+  // socket.on('user-left',user_name=>{
+  //   video.remove();
+  // });
+  
+});
 
 myPeer.on('open', id => {//create a new user id and let your peer join the room...
-  socket.emit('join-room', ROOM_ID, id)
-})
+  socket.emit('join-room', ROOM_ID, id);  
+});
 
 function connectToNewUser(userId, stream) {
   const call = myPeer.call(userId, stream)// call the user and send him our video stream
@@ -80,11 +71,12 @@ function connectToNewUser(userId, stream) {
   // video.setAttribute('id',userId);
   call.on('stream', userVideoStream => { //listen to the call and add your video
     addVideoStream(video, userVideoStream)
-  })
+  });
   //make calls
   call.on('close', () => {               //remove the video if user leave the call
     video.remove();
-  })
+    // socket.emit('leave-room',ROOM_ID,userId);
+  });
   peers[userId] = call //store the user data in the object
 }
 
@@ -166,16 +158,13 @@ const name_val = prompt('Enter your name to join');
 socket.emit('new-user-joined',ROOM_ID,name_val);
 
 socket.on('user-joined',(user_name)=>{
-    adduser(`${user_name} joined the chat`,'right');
-})
+  adduser(`${user_name} joined the chat`,'right');
+});
 
 socket.on('receive-msg', val =>{
   adduser(`${val.name}: ${val.msg}`,'left');
-})
+});
 
-socket.on('user-left-chat',user_name=>{
+socket.on('user-left',user_name=>{
   adduser(`${user_name} left the chat`,'left');
-})
-
-
-
+});
