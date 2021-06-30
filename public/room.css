@@ -15,23 +15,24 @@ body,html{
 #main-heading{
     color:snow;
     font-size: 40px;
-    margin-left: 2%;
+    margin-left: 8.2%;
     margin-top: 3%;
     margin-bottom: 1.5%;
 }
 #main{
-    margin-left:2%;
+    margin-left:8%;
     background: rgba( 0, 0, 0, 0.5 );
     box-shadow: 0 8px 32px 0 rgba( 23, 56, 12, 0.2 );
     backdrop-filter: blur( 6.5px );
     -webkit-backdrop-filter: blur( 6.5px );
     border-radius: 10px;
     border: 1px solid rgba( 255, 255, 255, 0.18 );
-    width:800px;
+    width:100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    min-height:500px;
+    text-align: center;
+    min-height:550px;
     max-height: max-content;
     align-items: center;
 }
@@ -47,7 +48,8 @@ body,html{
     border: 1px solid snow;
     outline:none;
     border-radius: 9px;
-    margin: 2%;
+    margin-left:8.2%;
+    margin-top:2%;
 }
 #end_call{
     margin-left:27.5%;
@@ -64,32 +66,36 @@ body,html{
     border: 1px solid snow;
     outline:none;
     border-radius: 9px;
-    margin-left: 32%;
+    margin-left: 27%;
 }
 
 video{
-    width:350px;
-    height:300px;
+    width:45%;
+    height:100%;
     object-fit: cover;
     border-radius: 9px;
     border: 2px solid white;
-    margin: 20px;
+    margin: 2%;
+    align-tracks: center;
+    /* margin-left: 2%;
+    margin-bottom: 2%; */
+
 }
 
 .chat_container{
-    height:500px;
+    height:550px;
     transform: translateY(-2.4%);
     /* max-height:max-content; */
-    width: 500px;
-    max-width: 600px;
+    width: 85%;
+    max-width:85%;
     background: rgba( 0, 0, 0, 0.5 );
     box-shadow: 0 8px 32px 0 rgba( 23, 56, 12, 0.2 );
     backdrop-filter: blur( 6.5px );
     -webkit-backdrop-filter: blur( 6.5px );
-    margin:none;
+    margin-left:16%;
     border-radius: 10px;
     overflow-y:auto;
-    margin-bottom: 3%;
+    margin-bottom: 2%;
 }
 .message{
     background: rgba( 70, 70, 117, 0.57 );
@@ -115,14 +121,13 @@ video{
 }
 
 #send_container{
-
+    margin-left:16%;
     text-align: center;
-    max-width: 500px;
-    width:100%;
+    width:86%;
 
 }
 #messageInp{
-    width:85%;
+    width:89%;
     margin:none;
     border: 2px solid black;
     border-radius:6px;
@@ -138,13 +143,15 @@ video{
     color: snow;
     background: transparent;
     border-radius: 6px;
-    height:34px;
+    height:max-content;
 }
 
 #m2{
     margin-left:3%;
     display:inline-block;
+    width: 40%;
 }
 #m1{
     display:inline-block;
+    width: 50%;
 }
