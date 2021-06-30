@@ -9,8 +9,6 @@ var icon_video = document.querySelector('.bi-camera-video');
 var icon_mic = document.querySelector('.bi-mic');
 var videoGrid = document.getElementById('video-grid');
 const end = document.getElementById('end_call');
-var vid_text = document.getElementById('vid_text');
-var mic_text = document.getElementById('mic_text');
 var mic_change = document.getElementById('mic_change');
 var video_change = document.getElementById('video_change');
 
@@ -24,34 +22,37 @@ navigator.mediaDevices.getUserMedia({
 }).then(stream => {
 
   addVideoStream(myVideo, stream)
+  stream.getAudioTracks()[0].enabled = false;
+  stream.getVideoTracks()[0].enabled = false;
   stop_video.addEventListener("click",()=>{
     toggleVideo(stream);
   });
   stop_mic.addEventListener("click",()=>{
     toggleMic(stream);
   });
-  socket.on('user_left',userId => {
-      
+
+  socket.on('user_left',userId=>{
     video.remove()
     var i = 0;
     while(i<1){
-     location.reload();
-     i++;
+      location.reload();
+      i++;
     }
- })
+  })
+
   myPeer.on('call', call => { //when someone joins the video send him your stream so you can see their video stream
     call.answer(stream)
     const video = document.createElement('video')
     socket.on('user_left',userId => {
-      
+
       video.remove()
       var i = 0;
       while(i<1){
        location.reload();
        i++;
       }
-   })
-   
+    })
+
     call.on('stream', userVideoStream => {
      addVideoStream(video, userVideoStream)
      //add their video to the video stream
@@ -61,69 +62,39 @@ navigator.mediaDevices.getUserMedia({
       //   video.remove()
       // })
     });
-    // socket.on('user_left',userId => {
-      
-    //   video.remove()
-    // })
   });//receive calls
 
-
-
-  // socket.on('user_left',userId => {
-  //   video.remove()
-  // })
   socket.on('user_joined', userId => {
     console.log("user connected: " + userId);
     connectToNewUser(userId, stream)// new user has joined the call so send the video stream to the user
   })
-  // socket.on('user_left',userId => {
-  //   video.remove()
-  // })
-  
 })
 
 myPeer.on('open', id => {//create a new user id and let your peer join the room...
   socket.emit('join-room', ROOM_ID, id)
-  // socket.on('user_left',userId => {
-  
-  //   video.remove()
-  // })
 })
 
 function connectToNewUser(userId, stream) {
   const call = myPeer.call(userId, stream)// call the user and send him our video stream
   const video = document.createElement('video')
-  call.on('stream', userVideoStream => { //listen to the call and add your video 
+  // video.setAttribute('id',userId);
+  call.on('stream', userVideoStream => { //listen to the call and add your video
     addVideoStream(video, userVideoStream)
-    socket.on('user_left',userId => {
-
-      video.remove()
-    })
-  })//make calls
-  // call.on('close', () => {               //remove the video if user leave the call
-  //   videoGrid.removeChild(video);
-  //   video.remove();
-  // })
-  // socket.on('user_left',userId => {
-    
-  //   video.remove()
-  // })
-
-
+  })
+  //make calls
+  call.on('close', () => {               //remove the video if user leave the call
+    video.remove();
+  })
   peers[userId] = call //store the user data in the object
 }
 
 
 function addVideoStream(video, stream) {//stream==video call | add our video on the grid call
-  video.srcObject = stream 
+  video.srcObject = stream
   video.addEventListener('loadedmetadata', () => {
     video.play() // load the video stream and play your video
   })
   videoGrid.appendChild(video)
-}
-
-function end_call(){
-  
 }
 
 function toggleVideo(stream) {
@@ -134,7 +105,6 @@ function toggleVideo(stream) {
     stop_video.style.backgroundColor = "red";
     document.querySelector('.bi-camera-video-off').style.transition = "0.2s ease-in";
     stop_video.style.transition = "0.2s ease-in";
-    vid_text.innerHTML = "Start Video";
   }
   else{
     video_change.innerHTML = `<i class="bi bi-camera-video" id="icon"></i>`
@@ -142,7 +112,6 @@ function toggleVideo(stream) {
     stop_video.style.backgroundColor = "#147502";
     document.querySelector('.bi-camera-video').style.transition = "0.2s ease-in";
     stop_video.style.transition = "0.2s ease-in";
-    vid_text.innerHTML = "Stop Video";
   }
 
 }
@@ -156,7 +125,6 @@ function toggleMic(stream) {
     stop_mic.style.backgroundColor = "red";
     document.querySelector('.bi-mic-mute').style.transition = "0.2s";
     stop_mic.style.transition = "0.2s";
-    mic_text.innerHTML = "Unmute";
     console.log("unmute")
   }
   else{
@@ -165,7 +133,49 @@ function toggleMic(stream) {
     stop_mic.style.backgroundColor = "#147502";
     document.querySelector('.bi-mic').style.transition = "0.2s";
     stop_mic.style.transition = "0.2s";
-    mic_text.innerHTML = "Mute";
     console.log('mute')
   }
 }
+
+//-------------------------------------------CHAT ROOM---------------------------------------------------------------
+
+const form = document.querySelector('#send_container');
+const messageInp = document.querySelector('#messageInp');
+const messageContainer = document.querySelector('.chat_container');
+
+function adduser(msg, pos){
+    const msgelement = document.createElement('div');
+    msgelement.innerText = msg;
+    msgelement.classList.add('message');
+    msgelement.classList.add(pos);
+    messageContainer.append(msgelement);
+}
+
+form.addEventListener('submit',(e)=>{
+  e.preventDefault();
+  const notif = messageInp.value;
+  if(messageInp.value != ""){
+    adduser(`You: ${notif}`,'right');
+    socket.emit('send-msg',ROOM_ID, notif);
+  }
+  messageInp.value = "";
+
+});
+
+const name_val = prompt('Enter your name to join');
+socket.emit('new-user-joined',ROOM_ID,name_val);
+
+socket.on('user-joined',(user_name)=>{
+    adduser(`${user_name} joined the chat`,'right');
+})
+
+socket.on('receive-msg', val =>{
+  adduser(`${val.name}: ${val.msg}`,'left');
+})
+
+socket.on('user-left-chat',user_name=>{
+  adduser(`${user_name} left the chat`,'left');
+})
+
+
+

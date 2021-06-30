@@ -9,26 +9,48 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <script>
-        const ROOM_ID = "<%= roomId %>"
+        var ROOM_ID = "<%= roomId%>"
     </script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.3.2/peerjs.min.js" integrity="sha512-4wTQ8feow93K3qVGVXUGLULDB9eAULiG+xdbaQH8tYZlXxYv9ij+evblXD0EOqmGWT8NBTd1vQGsURvrQzmKeg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script defer src="/socket.io/socket.io.js" ></script>
     <script defer src="video_room.js" ></script>
 </head>
 <body>
-    <h3 id="main-heading">Video Call</h3>
-    <div id="main">
-        <div id="video-grid">
+    <div id="m1">
+        <h3 id="main-heading">Video Call</h3>
+        <div id="main">
+            <div id="video-grid">
 
+            </div>
+        </div>
+        <div id="options">
+            <button id="video"><span id="video_change"><i class="bi bi-camera-video-off" id="icon"></i></span></button>
+            <button id="mic"><span id="mic_change"><i class="bi bi-mic-mute" id="icon"></i></span></button>
+            <a href="https://peer-connect.herokuapp.com/endcall" style="text-decoration: none;"><button id="end_call">End Call</button></a>
+            <button id="invite"><i class="bi bi-person-plus" id="icon"></i></button>
         </div>
     </div>
-    <div id="options">
-        <button id="video"><span id="video_change"><i class="bi bi-camera-video" id="icon"></i></span></button>
-        <span id="vid_text">Stop Video</span>
-        <button id="mic"><span id="mic_change"><i class="bi bi-mic" id="icon"></i></span></button>
-        <span id="mic_text">Mute</span>
-        <a href="https://peer-connect.herokuapp.com/endcall" style="text-decoration: none;"><button id="end_call">End Call</button></a>
-        <button id="invite"><i class="bi bi-person-plus" id="icon"></i></button>
-    </div>
+    <div id="m2">
+        <div class="chat_container">
+            <!-- <div class="message left">
+                
+            </div>
+            <div class="message right">
+                 
+            </div> -->
+        </div>
+    
+        <div class="send">
+            <form action="#" id="send_container">
+                    <input type="text" name="messageInp" id="messageInp">
+                    <button type="submit" class="send_btn">
+                        <svg width="34" height="30" viewBox="0 0 34 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0.0161905 30L34 15L0.0161905 0L0 11.6667L24.2857 15L0 18.3333L0.0161905 30Z" fill="#464675"/>
+                            </svg>                            
+                    </button>
+            </form>
+        </div>
+    </div>    
+    
 </body>
 </html>

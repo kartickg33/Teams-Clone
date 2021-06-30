@@ -14,6 +14,7 @@ const User = require('./models/user');
 const mongoSanitize = require('express-mongo-sanitize');
 //const helmet = require('helmet');
 const MongoDBStore = require("connect-mongo");
+const { isObject } = require('util');
 const server = require('http').Server(app) //allows us to create a server to use with socket.io
 // const { ExpressPeerServer } = require('peer');
 // const peerServer = ExpressPeerServer(server, {
@@ -29,6 +30,7 @@ const port = parseInt(process.env.PORT);
 
 
 const io = require('socket.io')(server);
+
 
 
 
@@ -57,6 +59,7 @@ app.use(express.static(path.join(__dirname,'public')))
 app.use(mongoSanitize({
     replaceWith:'_'
 }));
+const users = {};
 
 io.on('connection', socket => {
     socket.on('join-room', (roomId, userId) => {
@@ -64,12 +67,25 @@ io.on('connection', socket => {
       console.log("room id: " + roomId);
       console.log("user id: "+ userId);
       socket.to(roomId).emit('user_joined', userId)
-    })
+    });
+
+    socket.on('new-user-joined',(roomId,name) =>{
+        socket.join(roomId);
+        users[socket.id] = name;
+        socket.to(roomId).emit('user-joined',name);
+    });
+
+    socket.on('send-msg',(roomId, msg)=>{
+        socket.to(roomId).emit('receive-msg',{msg: msg, name: users[socket.id]});
+    });
+
     socket.on('disconnect',(roomId, userId)=>{
-        socket.leave(roomId,userId)
-        socket.broadcast.emit('user_left',userId) 
-      })
-  })
+        socket.leave(roomId,userId);
+        socket.broadcast.emit('user_left',userId); 
+        socket.broadcast.emit('user-left-chat',users[socket.id]);
+        delete users[socket.id];
+    });
+  });
 
 const secret = process.env.SECRET || 'thisshouldbeabettersecret!';
 
@@ -130,10 +146,6 @@ app.get("/endcall",(req,res)=>{
     res.render("leave.ejs");
 })
 
-app.get("/:rid",(req,res)=>{
-    res.render("video-room", { roomId: req.params.rid });
-})
-
 app.post('/register',async(req,res,next)=>{
     try {
         const { email, username, password } = req.body;
@@ -149,6 +161,11 @@ app.post('/register',async(req,res,next)=>{
         res.redirect('register');
     }
 })
+
+app.get("/:rid",(req,res)=>{
+    res.render("video-room", { roomId: req.params.rid });
+})
+
 
 server.listen(port,(req,res)=>{
     console.log(`Server is listening on ${port}!`);
