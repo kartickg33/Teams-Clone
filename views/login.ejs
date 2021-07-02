@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="main">
-        <h2 id="brand">Register</h2>
+        <h2 id="brand">Login</h2>
         <div class="m1" id="leftm1">
             <% if(success && success.length){%>
                 <p class="error" style="color:green;"><%=success%></p>
@@ -18,9 +18,8 @@
             <% if(error && error.length){%>
                 <p class="error"><%=error%></p>   
             <%}%>
-            <form action="/register" method="POST">
+            <form action="/login" method="POST">
                 <div class="fields" id="p1">
-
                     <div>
                         <label for="name" class="name_label">Name:</label><br>
                         <input type="text" name="username" required placeholder="Enter Your Name" class="input" id="username"/>
@@ -31,14 +30,13 @@
                         <label for="password" class="password_label">Password:</label><br>
                         <input type="password" name="password" required placeholder="Enter a Password" class="input" id="password"/>
                     </div>
-                    <button class="next"  type="submit">Register</button>
+                    <button class="next"  type="submit">Login</button>
                 </div>
             </form>
-            <a href="/login"><button class="next" style="margin-left:20%;margin-top:5%;">Click here to Login if Registered</button></a>
         </div>
         <div class="m1" style="height:100%;" id="rightm1">
             <div class="right">
-                <img src="2724268.svg" alt="Register" >
+                <img src="2724268.svg" alt="Login" >
             </div>
         </div>
     </div>

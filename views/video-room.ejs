@@ -7,8 +7,13 @@
     <title>Video Call</title>
     <link rel="stylesheet" href="room.css">
     <script>
-        var ROOM_ID = "<%= roomId%>"
+        var ROOM_ID = "<%= roomId%>";
     </script>
+    <% if(currentUser) { %>
+        <script>
+            var current_user_name = "<%= currentUser.username%>";
+        </script>
+    <% }%>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.2.0/peerjs.min.js" integrity="sha512-tlBTWiuYBfv0Hebytgddar+AKpaQSrU+tUDPMFzzCka83LxOTi0rcixYBom5roCGSliwkzHZaWR1xnQijOvDOw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script defer src="/socket.io/socket.io.js" ></script>
     <script defer src="video_room.js" ></script>
@@ -17,7 +22,7 @@
     <div id="m1">
         <h3 id="main-heading">Video Call</h3>
         <div id="main">
-            <div id="video-grid">
+            <div id="video_box">
 
             </div>
         </div>
@@ -29,13 +34,13 @@
         </div>
     </div>
     <div id="m2">
-        <div class="chat_container">
+        <div class="chat_box">
 
         </div>
     
-        <div class="send">
-            <form action="#" id="send_container">
-                    <input type="text" name="messageInp" id="messageInp" autofocus>
+        <div class="send-main">
+            <form action="#" id="send_box">
+                    <input type="text" name="message_kag" id="message_kag" autofocus>
                     <button type="submit" class="send_btn">
                         <svg xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 0 24 24" width="36px" fill="#FFFFFF"><path d="M0 0h24v24H0z" fill="none"/><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
                     </button>

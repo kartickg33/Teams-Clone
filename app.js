@@ -3,7 +3,6 @@ const app = express();
 const path = require('path');
 const mongoose = require('mongoose');
 const {v4: uuidv4} = require('uuid');
-// const ExpressError = require('./utils/ExpressError');
 const methodOverride = require("method-override");
 const ejsMate = require('ejs-mate');
 const session = require('express-session');
@@ -12,20 +11,15 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
 const mongoSanitize = require('express-mongo-sanitize');
-//const helmet = require('helmet');
 const MongoDBStore = require("connect-mongo");
-const { isObject } = require('util');
 const server = require('http').Server(app) //allows us to create a server to use with socket.io
-// const { ExpressPeerServer } = require('peer');
-// const peerServer = ExpressPeerServer(server, {
-//   debug: true
-// });
+const {isLoggedIn} = require('./public/middleware');
 
 
 if(process.env.NODE_ENV!=="production"){
     require("dotenv").config();
 }
-const uri = process.env.MONGODB_URI;
+const uri = process.env.MONGODB_URI; //database
 const port = parseInt(process.env.PORT);
 
 
@@ -34,11 +28,11 @@ const io = require('socket.io')(server);
 
 
 
-mongoose.connect(uri,{
+mongoose.connect(uri,{   // connect db
     useNewUrlParser:true,
     useCreateIndex:true,
     useUnifiedTopology:true,
-    useFindAndModify:false
+    useFindAndModify:false 
 });
 
 const db = mongoose.connection;
@@ -52,7 +46,6 @@ app.engine('ejs',ejsMate);
 app.set('view engine','ejs');
 app.set('views',path.join(__dirname,'views'))
 
-// app.use('/peerjs', peerServer);
 app.use(express.urlencoded({extended:true}))
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname,'public')))
@@ -62,31 +55,31 @@ app.use(mongoSanitize({
 const users = {};
 
 io.on('connection', socket => {
-    socket.on('join-room', (roomId, userId) => {
+    socket.on('join-room-kag', (roomId, userId) => {
       socket.join(roomId, userId)
       console.log("room id: " + roomId);
       console.log("user id: "+ userId);
-      socket.to(roomId).emit('user_joined', userId)
+      socket.to(roomId).emit('user-joined-kag-video', userId)
     });
 
-    socket.on('new-user-joined',(roomId,name) =>{
+    socket.on('new-user-joined-kag',(roomId,name) =>{
         socket.join(roomId);
         users[socket.id] = name;
-        socket.to(roomId).emit('user-joined',name);
+        socket.to(roomId).emit('user-joined-kag',name);
     });
 
-    socket.on('send-msg',(roomId, msg)=>{
-        socket.to(roomId).emit('receive-msg',{msg: msg, name: users[socket.id]});
+    socket.on('send-msg-kag',(roomId, msg)=>{
+        socket.to(roomId).emit('receive-msg-kag',{msg: msg, name: users[socket.id]});
     });
 
-    socket.on('leave-room',(roomId,userId)=>{ 
+    socket.on('leave-room-kag',(roomId,userId)=>{ 
         socket.leave(roomId,userId);
-        socket.to(roomId).emit('user-left',users[socket.id]);
+        socket.to(roomId).emit('user-left-kag',users[socket.id]);
         delete users[socket.id];
     });
   });
 
-const secret = process.env.SECRET || 'thisshouldbeabettersecret!';
+const secret = process.env.SECRET || 'secret';
 
 const store = MongoDBStore.create({
     mongoUrl: uri,
@@ -135,37 +128,50 @@ app.get('/register',async(req,res)=>{
 })
 
 
-app.get("/",(req,res)=>{
-    res.redirect(`/${uuidv4()}`);
+app.get("/", (req,res)=>{
+    // res.redirect(`/${uuidv4()}`);
+    res.render('home',{idr: uuidv4()});
 })
 
-app.get("/endcall",(req,res)=>{
+app.get("/endcall",isLoggedIn, (req,res)=>{
     res.render("leave.ejs");
 })
 
-app.post('/register',async(req,res,next)=>{
+app.post('/register', async(req,res,next)=>{
     try {
+        // passport used
         const { email, username, password } = req.body;
         const user = new User({ email, username });
         const registeredUser = await User.register(user, password);
         req.login(registeredUser, err => {
             if (err) return next(err);
-            req.flash('success', ' Hey! You can now connect with your peers!');
-            res.redirect('/register');
+            req.flash('success', ' Hey! You can now connect with your peers!'); // successfully registered
+            res.redirect('/');
         })
     }catch (e) {
         req.flash('error', e.message);
-        res.redirect('register');
+        res.redirect('register'); // error in register
     }
 })
 
-app.get("/:rid",(req,res)=>{
-    res.render("video-room", { roomId: req.params.rid });
+app.get('/login',(req,res)=>{
+    res.render('login');
+})
+
+app.post('/login',passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), (req,res)=>{
+    req.flash('success', 'Successful Login...');
+    const redirectUrl = req.session.returnTo || '/';
+    delete req.session.returnTo;
+    res.redirect(redirectUrl);
+})
+
+app.get("/:rid",isLoggedIn, (req,res)=>{
+    res.render("video-room", { roomId: req.params.rid}); // create a room
 })
 
 
 server.listen(port,(req,res)=>{
-    console.log(`Server is listening on ${port}!`);
+    console.log(`Server is listening on ${port}!`); 
 })
 
 

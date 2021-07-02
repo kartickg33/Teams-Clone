@@ -7,7 +7,7 @@ var stop_video = document.getElementById('video');
 var stop_mic = document.getElementById('mic');
 var icon_video = document.querySelector('.bi-camera-video');
 var icon_mic = document.querySelector('.bi-mic');
-var videoGrid = document.getElementById('video-grid');
+var video_box_kag = document.getElementById('video_box');
 const end = document.getElementById('end_call');
 var mic_change = document.getElementById('mic_change');
 var video_change = document.getElementById('video_change');
@@ -21,14 +21,14 @@ navigator.mediaDevices.getUserMedia({
   audio: true
 }).then(stream => {
 
-  addVideoStream(myVideo, stream)
+  Connect_User_Video_Stream(myVideo, stream)
   stream.getAudioTracks()[0].enabled = false;
   stream.getVideoTracks()[0].enabled = false;
-  stop_video.addEventListener("click",()=>{
-    toggleVideo(stream);
+  stop_video.addEventListener("click",()=>{ 
+    Start_Stop_Video(stream);
   });
   stop_mic.addEventListener("click",()=>{
-    toggleMic(stream);
+    Mute_Unmute(stream);
   });
 
 
@@ -36,24 +36,21 @@ navigator.mediaDevices.getUserMedia({
     call.answer(stream)
     const video = document.createElement('video')
 
-    call.on('stream', userVideoStream => {
-     addVideoStream(video, userVideoStream)
-     call.on('close', () => {               //remove the video if user leave the call
+    call.on('stream', New_User_Video_stream => {
+     Connect_User_Video_Stream(video, New_User_Video_stream)
+     call.on('close', () => {         //remove the video if user leave the call
       video.remove();
-      // socket.emit('leave-room',ROOM_ID);
       });
      //add their video to the video stream
       //  call.on('close', () => {//remove the video if user leave the call
-
-      //   videoGrid.removeChild(video);
       //   video.remove()
       // })
     });
   });//receive calls
 
-  socket.on('user_joined', userId => {
-    console.log("user connected: " + userId);
-    connectToNewUser(userId, stream)// new user has joined the call so send the video stream to the user
+  socket.on('user-joined-kag-video', userId => {
+    // console.log("user connected: " + userId);
+    Add_User_To_Room(userId, stream)// new user has joined the call so send the video stream to the user
   });
   // socket.on('user-left',user_name=>{
   //   video.remove();
@@ -62,15 +59,15 @@ navigator.mediaDevices.getUserMedia({
 });
 
 myPeer.on('open', id => {//create a new user id and let your peer join the room...
-  socket.emit('join-room', ROOM_ID, id);  
+  socket.emit('join-room-kag', ROOM_ID, id);  
 });
 
-function connectToNewUser(userId, stream) {
+function Add_User_To_Room(userId, stream) {
   const call = myPeer.call(userId, stream)// call the user and send him our video stream
   const video = document.createElement('video')
   // video.setAttribute('id',userId);
-  call.on('stream', userVideoStream => { //listen to the call and add your video
-    addVideoStream(video, userVideoStream)
+  call.on('stream', New_User_Video_stream => { //listen to the call and add your video
+    Connect_User_Video_Stream(video, New_User_Video_stream)
   });
   //make calls
   call.on('close', () => {               //remove the video if user leave the call
@@ -81,15 +78,15 @@ function connectToNewUser(userId, stream) {
 }
 
 
-function addVideoStream(video, stream) {//stream==video call | add our video on the grid call
+function Connect_User_Video_Stream(video, stream) {//stream==video call | add our video on the grid call
   video.srcObject = stream
   video.addEventListener('loadedmetadata', () => {
     video.play() // load the video stream and play your video
   })
-  videoGrid.appendChild(video)
+  video_box_kag.appendChild(video)
 }
 
-function toggleVideo(stream) {
+function Start_Stop_Video(stream) {
   stream.getVideoTracks()[0].enabled = !stream.getVideoTracks()[0].enabled ;
   if(!stream.getVideoTracks()[0].enabled){
     video_change.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 0 24 24" width="36px" fill="#FFFFFF"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M9.56 8l-2-2-4.15-4.14L2 3.27 4.73 6H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.21 0 .39-.08.55-.18L19.73 21l1.41-1.41-8.86-8.86L9.56 8zM5 16V8h1.73l8 8H5zm10-8v2.61l6 6V6.5l-4 4V7c0-.55-.45-1-1-1h-5.61l2 2H15z"/></svg>`;
@@ -106,7 +103,7 @@ function toggleVideo(stream) {
 
 }
 
-function toggleMic(stream) {
+function Mute_Unmute(stream) {
 
   stream.getAudioTracks()[0].enabled = !stream.getAudioTracks()[0].enabled;
   if(stream.getAudioTracks()[0].enabled==false){
@@ -125,9 +122,9 @@ function toggleMic(stream) {
 
 //-------------------------------------------CHAT ROOM---------------------------------------------------------------
 
-const form = document.querySelector('#send_container');
-const messageInp = document.querySelector('#messageInp');
-const messageContainer = document.querySelector('.chat_container');
+const form = document.querySelector('#send_box');
+const message_kag = document.querySelector('#message_kag');
+const messageContainer = document.querySelector('.chat_box');
 
 function adduser(msg, pos){
     const msgelement = document.createElement('div');
@@ -137,28 +134,28 @@ function adduser(msg, pos){
     messageContainer.append(msgelement);
 }
 
-form.addEventListener('submit',(e)=>{
-  e.preventDefault();
-  const notif = messageInp.value;
-  if(messageInp.value != ""){
+form.addEventListener('submit',(submit_event)=>{
+  submit_event.preventDefault();
+  const notif = message_kag.value;
+  if(message_kag.value != ""){
     adduser(`You: ${notif}`,'right');
-    socket.emit('send-msg',ROOM_ID, notif);
+    socket.emit('send-msg-kag',ROOM_ID, notif);
   }
-  messageInp.value = "";
+  message_kag.value = "";
 
 });
 
-const name_val = prompt('Enter your name to join');
-socket.emit('new-user-joined',ROOM_ID,name_val);
+const name_val = current_user_name;
+socket.emit('new-user-joined-kag',ROOM_ID,name_val);
 
-socket.on('user-joined',(user_name)=>{
-  adduser(`${user_name} joined the chat`,'right');
+socket.on('user-joined-kag',(user_name)=>{
+  adduser(`${user_name} Joined The Room...`,'right');
 });
 
-socket.on('receive-msg', val =>{
+socket.on('receive-msg-kag', val =>{
   adduser(`${val.name}: ${val.msg}`,'left');
 });
 
-socket.on('user-left',user_name=>{
-  adduser(`${user_name} left the chat`,'left');
+socket.on('user-left-kag',user_name=>{
+  adduser(`${user_name} Left The Room...`,'left');
 });
