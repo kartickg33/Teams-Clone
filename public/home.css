@@ -37,6 +37,14 @@ img{
     animation: view0 ease-in-out 1.5s;
 }
 
+.error{
+    font-weight:400;
+    margin-left:10%;
+    color: #F9716E;
+    margin-top:1%;
+    width: 100%;
+    animation: view2 ease 1.8s;
+}
 
 nav{
     margin-left:10%;
@@ -46,7 +54,7 @@ nav{
 }
 .nav-link{
     color:#c3c4c7;
-    padding-right:2%;
+    padding-right:3%;
     text-decoration: none;
     transition: 0.3s;
     cursor: pointer;
@@ -265,6 +273,12 @@ nav{
        width: 82%;
        margin-right: 0%;
    }
+   .error{
+    text-align:left;
+    margin-top: 5%;
+    margin-left:11%;
+    animation: view2 ease 1.7s;
+    }
 
    .mainchild1 p{
        margin-top: 10%;
@@ -330,6 +344,12 @@ nav{
        width: 100%;
        margin: 0%;
    }
+   .error{
+    text-align:left;
+    margin-top: 2%;
+    margin-left:11%;
+    animation: view2 ease 1.7s;
+}
 
    #brand{
         font-size: 40px;

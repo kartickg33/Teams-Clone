@@ -145,7 +145,7 @@ app.post('/register', async(req,res,next)=>{
         const registeredUser = await User.register(user, password);
         req.login(registeredUser, err => {
             if (err) return next(err);
-            req.flash('success', ' Hey! You can now connect with your peers!'); // successfully registered
+            req.flash('success', 'You have Registered successfully'); // successfully registered
             res.redirect('/');
         })
     }catch (e) {
@@ -159,10 +159,16 @@ app.get('/login',(req,res)=>{
 })
 
 app.post('/login',passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), (req,res)=>{
-    req.flash('success', 'Successful Login...');
+    req.flash('success', 'You have logged in successfully');
     const redirectUrl = req.session.returnTo || '/';
     delete req.session.returnTo;
     res.redirect(redirectUrl);
+})
+
+app.get('/logout',(req,res)=>{
+    req.logout();
+    req.flash('success',"You have logged out successfully");
+    res.redirect('/');
 })
 
 app.get("/:rid",isLoggedIn, (req,res)=>{

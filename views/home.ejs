@@ -12,16 +12,23 @@
     <div class="con">
         <div class="main" id="mtop">
                 <nav>
-                    <a href="" id="brand">Peer-Connect &emsp; &emsp; &nbsp;</a>
+                    <a href="" id="brand">Peer-Connect&emsp;&nbsp;</a>
                     <% if(!currentUser) {%>
                         <a class="nav-link" href="/register">Register</a>
                         <a class="nav-link" href="/login">Login</a>
                     <% }else{ %>
-                        <a class="nav-link" href="">Logout</a>  
+                        <a class="nav-link" href="/logout">Logout</a>  
                     <% } %> 
                 </nav>
                 
                 <div class="mainchild1">
+                        <% if(success && success.length){%>
+                            <p class="error" style="color:green;"><%=success%></p>
+                        <%}%>
+                                
+                        <% if(error && error.length){%>
+                            <p class="error"><%=error%></p>   
+                        <%}%>
                     <p class="text-main">Lorem ipsum dolor sit amet, consectetur adipiscing<br>elit. Mauris non pretium neque, et vestibulum ipsum.<br> Proin magna lectus, vulputate vitae laoreet<br> vulputate, lacinia eu augue. elit, non n et enim ac<br> libero condimentum volutpat.</p>
                     <a href="/<%= idr %>" style="text-decoration: none;"><button class="new_meet">Start New Meeting</button></a>
                 </div>
