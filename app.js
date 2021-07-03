@@ -160,9 +160,7 @@ app.get('/login',(req,res)=>{
 
 app.post('/login',passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), (req,res)=>{
     req.flash('success', 'You have logged in successfully');
-    const redirectUrl = req.session.returnTo || '/';
-    delete req.session.returnTo;
-    res.redirect(redirectUrl);
+    res.redirect('/');
 })
 
 app.get('/logout',(req,res)=>{
