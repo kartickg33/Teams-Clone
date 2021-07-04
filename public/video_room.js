@@ -149,13 +149,23 @@ const name_val = current_user_name;
 socket.emit('new-user-joined-kag',ROOM_ID,name_val);
 
 socket.on('user-joined-kag',(user_name)=>{
-  adduser(`${user_name} Joined The Room...`,'right');
+  adduser(`${user_name} Joined The Call`,'right');
 });
 
 socket.on('receive-msg-kag', val =>{
   adduser(`${val.name}: ${val.msg}`,'left');
 });
 
-socket.on('user-left-kag',user_name=>{
-  adduser(`${user_name} Left The Room...`,'left');
+end.addEventListener('click',()=>{
+  socket.emit('leave-room-kag',ROOM_ID);
 });
+
+window.addEventListener('beforeunload',()=>{
+  socket.emit('leave-room-kag',ROOM_ID);
+});
+
+socket.on('user-left-kag',user_name=>{
+  adduser(`${user_name} Left The Call`,'left');
+});
+
+

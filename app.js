@@ -72,9 +72,9 @@ io.on('connection', socket => {
         socket.to(roomId).emit('receive-msg-kag',{msg: msg, name: users[socket.id]});
     });
 
-    socket.on('leave-room-kag',(roomId,userId)=>{ 
-        socket.leave(roomId,userId);
-        socket.to(roomId).emit('user-left-kag',users[socket.id]);
+    socket.on('leave-room-kag',(roomId)=>{ 
+        // socket.leave(roomId,userId);
+        socket.in(roomId).emit('user-left-kag',users[socket.id]);
         delete users[socket.id];
     });
   });
@@ -101,7 +101,7 @@ const sessionConfig = {
         //secure:true,
         expires: Date.now() + 1000*60*15,
         maxAge:1000*60*15
-    } 
+    }
 }
 app.use(session(sessionConfig))
 app.use(flash());
@@ -169,13 +169,16 @@ app.get('/logout',(req,res)=>{
     res.redirect('/');
 })
 
+
+
+
 app.get("/:rid",isLoggedIn, (req,res)=>{
     res.render("video-room", { roomId: req.params.rid}); // create a room
 })
 
 
 server.listen(port,(req,res)=>{
-    console.log(`Server is listening on ${port}!`); 
+    console.log(`Server is listening on ${port}!`);
 })
 
 
