@@ -10,6 +10,7 @@ const flash = require('connect-flash');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
+const Room = require('./models/room');
 const mongoSanitize = require('express-mongo-sanitize');
 const MongoDBStore = require("connect-mongo");
 const server = require('http').Server(app) //allows us to create a server to use with socket.io
@@ -47,6 +48,7 @@ app.set('view engine','ejs');
 app.set('views',path.join(__dirname,'views'))
 
 app.use(express.urlencoded({extended:true}))
+app.use(express.json());
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname,'public')))
 app.use(mongoSanitize({
@@ -169,11 +171,35 @@ app.get('/logout',(req,res)=>{
     res.redirect('/');
 })
 
+app.get('/roomSetup',isLoggedIn,(req,res)=>{
+    res.render('room_config');
+});
 
+app.post('/roomSetup',isLoggedIn,async(req,res)=>{
+    try{
+        var user_list = req.body;
+        const room = await Room.create({host: user_list[0], users_allowed: user_list, roomId: uuidv4()});
+        res.redirect(`/${room.roomId}`);
+    }catch(e){
+        
+    }
+})
 
-
-app.get("/:rid",isLoggedIn, (req,res)=>{
-    res.render("video-room", { roomId: req.params.rid}); // create a room
+app.get("/:rid",isLoggedIn, async(req,res)=>{
+    var room = await Room.findOne({roomId:req.params.rid}).exec();
+    if(!(room)){
+        res.render('room_not_found');
+    }
+    else{
+        var flag = 0;
+        var user_arr = room.users_allowed;
+        if(user_arr.includes(req.user.username)){
+            res.render("video-room", { roomId: req.params.rid}); // create a room
+        }
+        else{
+            res.render('not_authorised');
+        }
+    }
 })
 
 

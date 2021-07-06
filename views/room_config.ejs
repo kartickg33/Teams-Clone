@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create a Room</title>
+    <link rel="stylesheet" href="room_config.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        var host = "<%= currentUser.username %>";
+    </script>
+</head>
+<body>
+    <% if(currentUser){ %> 
+        <p>Host: <%= currentUser.username %></p>
+    <% } %> 
+    <div id="attendees">
+
+    </div>
+    <form id="add_form">
+        <input type="text" name="attendee" id="attendee" placeholder="Enter Username of attendee">
+        <button class="add_new">Add Attendee to the room</button>
+    </form>
+    <button type="submit" class="add_new" id="create_btn">Create Room</button>
+    <script src="room_detail.js"></script>
+</body>
+</html>

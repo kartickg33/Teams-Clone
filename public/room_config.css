@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+
+*{
+    font-family: "Lato", sans-serif;
+}
+
+.add_new{
+    margin-top:5%;
+    margin-left:10%;
+    background: #f7ea8e;
+    border-radius:10px;
+    width:40%;
+    padding: 2.5%;
+    border:none;
+    font-weight: 500;
+    color: #52495F;
+    transition: 0.3s;
+     animation: view3 ease 2.5s;
+}
+
+.add_new:hover{
+    cursor: pointer;
+    transition: 0.3s;
+    background: #000000;
+    color: white;
+}
