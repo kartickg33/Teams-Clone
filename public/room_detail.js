@@ -20,7 +20,7 @@ create_btn.addEventListener('click',async()=>{
     var user_list = JSON.stringify(users_allowed);
     $.ajax({
         type:"POST",
-        url:"http://localhost:3000/roomDetails/",
+        url:"https://peer-connect.herokuapp.com/roomSetup/",
         data: user_list,
         contentType:"application/json; charset=utf-8",
         dataType:"json",
