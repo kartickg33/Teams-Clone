@@ -19,7 +19,7 @@ body,html{
     justify-content: center; 
     padding:6%;
     margin:auto;
-    transform: translate(0%,80%);
+    transform: translate(0%,80%);  
 }
 #text{
     color:white;

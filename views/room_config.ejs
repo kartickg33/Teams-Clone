@@ -12,17 +12,26 @@
     </script>
 </head>
 <body>
-    <% if(currentUser){ %> 
-        <p>Host: <%= currentUser.username %></p>
-    <% } %> 
-    <div id="attendees">
-
-    </div>
-    <form id="add_form">
-        <input type="text" name="attendee" id="attendee" placeholder="Enter Username of attendee">
-        <button class="add_new">Add Attendee to the room</button>
-    </form>
-    <button type="submit" class="add_new" id="create_btn">Create Room</button>
+    <div id="main_text">
+        <span id="text">
+            <% if(currentUser){ %> 
+                <p id="host">
+                    Host: <%= currentUser.username %>
+                    <br>
+                    Attendees:
+                </p>
+            <% } %>
+    
+            <div id="attendees">
+    
+            </div>
+        </span>
+        <form id="add_form">
+            <input type="text" name="attendee" id="attendee" placeholder="Enter Username of attendee" class="input">
+            <button class="add_new">Add Attendee to the room</button>
+        </form>
+        <button type="submit" id="create_btn">Create Room</button>
+    </div> 
     <script src="room_detail.js"></script>
 </body>
 </html>
