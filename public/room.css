@@ -38,6 +38,7 @@ body,html{
 }
 #video,#mic{
     /* background: #147502; */
+    cursor:pointer;
     background-color: red;
     padding: 0.5%;
     border: none;
@@ -55,14 +56,6 @@ body,html{
     padding:1%;
     border-radius: 9px;
     border:none;
-}
-#invite{
-    background: transparent;
-    padding: 0.5%;
-    border: none;
-    outline:none;
-    border-radius: 9px;
-    margin-left: 23%;
 }
 
 video{
