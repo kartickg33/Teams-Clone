@@ -191,9 +191,8 @@ app.get("/:rid",isLoggedIn, async(req,res)=>{
         res.render('room_not_found');
     }
     else{
-        var flag = 0;
         var user_arr = room.users_allowed;
-        if(user_arr.includes(req.user.username)){
+        if(user_arr.includes(req.user.email)){
             res.render("video-room", { roomId: req.params.rid}); // create a room
         }
         else{

@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="room_config.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-        var host = "<%= currentUser.username %>";
+        var host = "<%= currentUser.email %>";
     </script>
 </head>
 <body>
@@ -16,7 +16,7 @@
         <span id="text">
             <% if(currentUser){ %> 
                 <p id="host">
-                    Host: <%= currentUser.username %>
+                    Host: <%= currentUser.username %> (<%= currentUser.email %>)
                 </p>
             <% } %>
             <p><a href="" id="room_link" style="text-decoration: none;"></a></p>
@@ -30,7 +30,7 @@
     </div> 
     <div id="attendee_add">
         <form id="add_form">
-            <input type="text" name="attendee" id="attendee" placeholder="Enter Username of attendee" class="input">
+            <input type="text" name="attendee" id="attendee" placeholder="Enter Email ID of attendee" class="input">
             <button class="add_new">Add Attendee</button>
         </form>
         <button type="submit" id="create_btn">Start Room</button>
