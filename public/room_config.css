@@ -7,11 +7,11 @@
 
 .add_new{
     margin-top:5%;
-    margin-left:10%;
+    margin-left:5%;
     background: #f7ea8e;
     border-radius:10px;
-    width:15%;
-    padding: 1.5%;
+    width:20%;
+    padding: 2.2%;
     border:none;
     font-weight: 500;
     color: #52495F;
@@ -27,12 +27,13 @@
 }
 
 #create_btn{
-    margin-top:5%;
-    margin-left:10%;
     background: #f7ea8e;
+    margin-top: 4%;
     border-radius:10px;
     width:15%;
-    padding: 1.5%;
+    height: 10%;
+    padding:1.7%;
+    text-align: center;
     border:none;
     font-weight: 500;
     color: #52495F;
@@ -48,28 +49,26 @@
 }
 
 #main_text{    
-    background: rgba( 70, 70, 117, 0.90 );
-    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-    backdrop-filter: blur( 6.5px );
-    -webkit-backdrop-filter: blur( 6.5px );
-    border-radius: 10px;
-    border: 1px solid rgba( 255, 255, 255, 0.18 );
-    width:50%;
-    padding:6%;
-    margin:auto;  
+    padding:3%;
+    padding-bottom:0%;
+    position:relative; 
+    width:85%;
 }
-#text{
+body,html{
+    background: #464675;
+    height:100%;
+}
+#text,#room_link{
     color:white;
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 400;
 }
 
 
 .input{
-    margin-bottom: 4%;
-    margin-top:17%;
+    margin-bottom: 1%;
     margin-left: 5%;
-    padding: 2.1%;
+    padding: 1.5%;
     width:50%;
     outline: none;
     border-radius: 6px;
@@ -112,8 +111,35 @@ label{
     /* animation: view ease-in-out 1.5s; */
 }
 
-#host,#attendees{
+#host{
     color:white;
-    transform: translateY(-50%);
-    margin-left:5%;
+
+    margin-left:2%;
+}
+
+#attendees{
+    color:white;
+    margin-top: 1%;
+    margin-left: 1.8%;
+    height: 100%;
+}
+
+/* #attendee_add{
+
+} */
+li{
+    padding-top: 1%;
+}
+#attendee_add{
+    margin-top: 1%;
+    display:flex;
+    flex-wrap:wrap;
+}
+#list_users{
+    position: relative;
+    height:max-content;
+    width: 100%;
+}
+#add_form{
+    width:80%;
 }

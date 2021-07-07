@@ -17,21 +17,40 @@
             <% if(currentUser){ %> 
                 <p id="host">
                     Host: <%= currentUser.username %>
-                    <br>
-                    Attendees:
                 </p>
             <% } %>
-    
-            <div id="attendees">
-    
-            </div>
+            <p><a href="" id="room_link" style="text-decoration: none;"></a></p>
+            <p id="host">Attendees</p>
         </span>
+    </div>
+    <div id="list_users">
+        <ul id="attendees" style="list-style-type:none;"> 
+    
+        </ul>
+    </div> 
+    <div id="attendee_add">
         <form id="add_form">
             <input type="text" name="attendee" id="attendee" placeholder="Enter Username of attendee" class="input">
-            <button class="add_new">Add Attendee to the room</button>
+            <button class="add_new">Add Attendee</button>
         </form>
-        <button type="submit" id="create_btn">Create Room</button>
+        <button type="submit" id="create_btn">Start Room</button>
     </div> 
     <script src="room_detail.js"></script>
+    <!-- <script>
+        var ROOM_ID;
+        fetch("http://localhost:3000/room")
+        .then((response)=>{
+            if(response.length){
+                console.log('length'+ response.length)
+                var data = response.json();
+                ROOM_ID = data.roomId;
+            }
+        });
+        if(ROOM_ID){
+            console.log(ROOM_ID);
+            document.getElementById('room_link').innerText = "Click here to go to Room";
+            document.getElementById('room_link').setAttribute('href',`http://localhost:3000/${ROOM_ID}`);
+        }
+    </script> -->
 </body>
 </html>

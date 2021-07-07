@@ -132,7 +132,7 @@ app.get('/register',async(req,res)=>{
 
 app.get("/", (req,res)=>{
     // res.redirect(`/${uuidv4()}`);
-    res.render('home',{idr: uuidv4()});
+    res.render('home');
 })
 
 app.get("/endcall",isLoggedIn, (req,res)=>{
@@ -171,15 +171,15 @@ app.get('/logout',(req,res)=>{
     res.redirect('/');
 })
 
-app.get('/roomSetup',isLoggedIn,(req,res)=>{
+app.get('/room',isLoggedIn,(req,res)=>{
     res.render('room_config');
 });
 
-app.post('/roomSetup',isLoggedIn,async(req,res)=>{
+app.post('/room',isLoggedIn,async(req,res)=>{
     try{
         var user_list = req.body;
         const room = await Room.create({host: user_list[0], users_allowed: user_list, roomId: uuidv4()});
-        res.redirect(`/${room.roomId}`);
+        res.json({roomId:room.roomId});
     }catch(e){
         
     }
