@@ -162,7 +162,9 @@ app.get('/login',(req,res)=>{
 
 app.post('/login',passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), (req,res)=>{
     req.flash('success', 'You have logged in successfully');
-    res.redirect('/');
+    const prevUrl = req.session.returnTo || '/';
+    delete req.session.returnTo;
+    res.redirect(prevUrl);
 })
 
 app.get('/logout',(req,res)=>{
@@ -183,6 +185,10 @@ app.post('/room',isLoggedIn,async(req,res)=>{
     }catch(e){
         
     }
+})
+app.get('/favicon.ico',(req,res)=>{
+    res.status(204);
+    res.end();
 })
 
 app.get("/:rid",isLoggedIn, async(req,res)=>{
