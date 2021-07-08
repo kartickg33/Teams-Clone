@@ -20,7 +20,7 @@ const {isLoggedIn} = require('./public/middleware');
 if(process.env.NODE_ENV!=="production"){
     require("dotenv").config();
 }
-const uri = process.env.MONGODB_URI; //database
+const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/Teams-Clone'; //database
 const port = parseInt(process.env.PORT);
 
 
