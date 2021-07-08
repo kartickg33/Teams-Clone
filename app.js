@@ -191,6 +191,13 @@ app.get('/favicon.ico',(req,res)=>{
     res.end();
 })
 
+app.get('/search',isLoggedIn,async(req,res)=>{
+    var key = await User.find({email:{$regex:req.query.search_key,$options:"i"}});
+    console.log(req.query.search_key);
+    console.log(key);
+    res.json({val:key});
+})
+
 app.get("/:rid",isLoggedIn, async(req,res)=>{
     var room = await Room.findOne({roomId:req.params.rid}).exec();
     if(!(room)){

@@ -35,5 +35,33 @@ create_btn.addEventListener('click',async()=>{
     });
 })
 
+function suggest(key){
+    fetch(`https://peer-connect.herokuapp.com/search?search_key=${key}`)
+    .then(response=>response.json())
+    .then(function(data){
+        document.querySelector('#suggest_ul').innerHTML = "";
+        if(attendee_name.value==""){
+            document.querySelector('#suggest_email').style.display = "none";
+            document.querySelector('#suggest_email').style.transition = "0.3s";
+        }
+        document.querySelector('#suggest_email').style.display = "block";
+        document.querySelector('#suggest_email').style.transition = "0.3s";
+        data.val.forEach(x => {
+            document.querySelector('#suggest_ul').innerHTML+=`
+            <li id="${x.email}" onclick='autofill(this.id)' class="suggest_li">${x.email}</li><br>`;
+        });
+        if(attendee_name.value==""){
+            document.querySelector('#suggest_email').style.display = "none";
+            document.querySelector('#suggest_email').style.transition = "0.3s";
+        }
+    })
+}
 
-
+function autofill(mail){
+    if(mail != ""){
+        mail.trim();
+        attendee_name.value = mail;
+        document.querySelector('#suggest_email').style.display = "none";
+        document.querySelector('#suggest_email').style.transition = "0.3s";
+    }
+}

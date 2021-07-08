@@ -30,27 +30,14 @@
     </div> 
     <div id="attendee_add">
         <form id="add_form">
-            <input type="email" name="attendee" id="attendee" placeholder="Enter Email ID of attendee" class="input">
+            <input type="email" name="attendee" id="attendee" oninput="suggest(this.value)" placeholder="Enter Email ID of attendee" class="input">
             <button class="add_new">Add Attendee</button>
         </form>
         <button type="submit" id="create_btn">Start Room</button>
+    </div>
+    <div id="suggest_email">
+        <ul id="suggest_ul"></ul>
     </div> 
     <script src="room_detail.js"></script>
-    <!-- <script>
-        var ROOM_ID;
-        fetch("http://localhost:3000/room")
-        .then((response)=>{
-            if(response.length){
-                console.log('length'+ response.length)
-                var data = response.json();
-                ROOM_ID = data.roomId;
-            }
-        });
-        if(ROOM_ID){
-            console.log(ROOM_ID);
-            document.getElementById('room_link').innerText = "Click here to go to Room";
-            document.getElementById('room_link').setAttribute('href',`http://localhost:3000/${ROOM_ID}`);
-        }
-    </script> -->
 </body>
 </html>
