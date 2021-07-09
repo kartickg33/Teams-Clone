@@ -70,10 +70,9 @@ nav{
     cursor: pointer;
 }
 .text-main{
-    margin-top: 20%;
+    margin-top: 15%;
     text-align: justify;
     font-size: 18px;
-    text-transform: capitalize;
     color: #707379;
     margin-left:10%;
     animation: view2 ease 1.8s;
@@ -136,7 +135,7 @@ nav{
     }
 }
 .new_meet{
-    margin-top:5%;
+    margin-top:10%;
     margin-left:10%;
     background: #f7ea8e;
     border-radius:10px;

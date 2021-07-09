@@ -181,24 +181,3 @@ li{
         opacity: 1;
     }
 }
-
-/* 
-::-webkit-scrollbar {
-    width: 8px;
-  }
-  
-  /* Track 
-  ::-webkit-scrollbar-track {
-    background-color:#0a0a0ade;
-  }
-   
-  /* Handle 
-  ::-webkit-scrollbar-thumb {
-    background: #b6362d; 
-  }
-  
-  /* Handle on hover 
-  ::-webkit-scrollbar-thumb:hover {
-    background: #00A8E1; 
-  }
- */
