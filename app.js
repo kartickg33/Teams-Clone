@@ -148,7 +148,9 @@ app.post('/register', async(req,res,next)=>{
         req.login(registeredUser, err => {
             if (err) return next(err);
             req.flash('success', 'You have Registered successfully'); // successfully registered
-            res.redirect('/');
+            const prevUrl = req.session.returnTo || '/';
+            delete req.session.returnTo;
+            res.redirect(prevUrl);
         })
     }catch (e) {
         req.flash('error', e.message);
