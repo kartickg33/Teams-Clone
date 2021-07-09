@@ -126,11 +126,11 @@ const form = document.querySelector('#send_box');
 const message_kag = document.querySelector('#message_kag');
 const messageContainer = document.querySelector('.chat_box');
 
-function adduser(msg, pos){
+function adduser(msg, pos){ // add message to the chat box
     const msgelement = document.createElement('div');
     msgelement.innerText = msg;
     msgelement.classList.add('message');
-    msgelement.classList.add(pos);
+    msgelement.classList.add(pos); //position varies for sender(right) and receiver(left) for the message
     messageContainer.append(msgelement);
 }
 
@@ -139,7 +139,7 @@ form.addEventListener('submit',(submit_event)=>{
   const notif = message_kag.value;
   if(message_kag.value != ""){
     adduser(`You: ${notif}`,'right');
-    socket.emit('send-msg-kag',ROOM_ID, notif);
+    socket.emit('send-msg-kag',ROOM_ID, notif); // emit the send message event when user types a message
   }
   message_kag.value = "";
 
@@ -152,12 +152,12 @@ socket.on('user-joined-kag',(user_name)=>{
   adduser(`${user_name} Joined The Call`,'right');
 });
 
-socket.on('receive-msg-kag', val =>{
+socket.on('receive-msg-kag', val =>{ // receive the message when other user sends a message
   adduser(`${val.name}: ${val.msg}`,'left');
 });
 
 end.addEventListener('click',()=>{
-  socket.emit('leave-room-kag',ROOM_ID);
+  socket.emit('leave-room-kag',ROOM_ID); // leave room when user clicks on end call button
 });
 
 window.addEventListener('beforeunload',()=>{
@@ -165,7 +165,7 @@ window.addEventListener('beforeunload',()=>{
 });
 
 socket.on('user-left-kag',user_name=>{
-  adduser(`${user_name} Left The Call`,'left');
+  adduser(`${user_name} Left The Call`,'left'); // inform the rest of the users in the room when a person leaves the room...
 });
 
 

@@ -57,24 +57,24 @@ app.use(mongoSanitize({
 const users = {};
 
 io.on('connection', socket => {
-    socket.on('join-room-kag', (roomId, userId) => {
+    socket.on('join-room-kag', (roomId, userId) => { // join room event
       socket.join(roomId, userId)
-      console.log("room id: " + roomId);
-      console.log("user id: "+ userId);
+      console.log("unique room id- " + roomId);
+      console.log("unique user id- "+ userId);
       socket.to(roomId).emit('user-joined-kag-video', userId)
     });
 
-    socket.on('new-user-joined-kag',(roomId,name) =>{
+    socket.on('new-user-joined-kag',(roomId,name) =>{// join chat event
         socket.join(roomId);
         users[socket.id] = name;
         socket.to(roomId).emit('user-joined-kag',name);
     });
 
-    socket.on('send-msg-kag',(roomId, msg)=>{
+    socket.on('send-msg-kag',(roomId, msg)=>{// send message event
         socket.to(roomId).emit('receive-msg-kag',{msg: msg, name: users[socket.id]});
     });
 
-    socket.on('leave-room-kag',(roomId)=>{ 
+    socket.on('leave-room-kag',(roomId)=>{ // leave room event
         // socket.leave(roomId,userId);
         socket.in(roomId).emit('user-left-kag',users[socket.id]);
         delete users[socket.id];
@@ -150,7 +150,7 @@ app.post('/register', async(req,res,next)=>{
             req.flash('success', 'You have Registered successfully'); // successfully registered
             const prevUrl = req.session.returnTo || '/';
             delete req.session.returnTo;
-            res.redirect(prevUrl);
+            res.redirect(prevUrl); 
         })
     }catch (e) {
         req.flash('error', e.message);
@@ -188,9 +188,9 @@ app.post('/room',isLoggedIn,async(req,res)=>{
         
     }
 })
-app.get('/favicon.ico',(req,res)=>{
+app.get('/favicon.ico',(req,res)=>{ // so that the user is not directed to favicon.ico route
     res.status(204);
-    res.end();
+    res.end(); 
 })
 
 app.get('/search',isLoggedIn,async(req,res)=>{
@@ -201,7 +201,7 @@ app.get('/search',isLoggedIn,async(req,res)=>{
 })
 
 app.get("/:rid",isLoggedIn, async(req,res)=>{
-    var room = await Room.findOne({roomId:req.params.rid}).exec();
+    var room = await Room.findOne({roomId:req.params.rid}).exec(); // search for matching emails using regex in mongoose
     if(!(room)){
         res.render('room_not_found');
     }
