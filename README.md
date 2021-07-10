@@ -180,6 +180,6 @@ $ node app.js          // Start app.js
 
 # Additional Notes
 
-To successfully use Teams on your local machine, take note of the following things for "room_details.js" file:-
+To successfully use Teams on your local machine, take note of the following things for "room_detail.js" file:-
 
 1. In line numbers 22, 31 and 37 change only the main url to 'http://localhost:3000/' for Room Creation to work successfully.   
