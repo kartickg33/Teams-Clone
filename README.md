@@ -4,9 +4,15 @@
 
 <h1>Teams</h2>
 
-Teams is a platform to connect people with each other from their comfort zones.
+Teams is a platform to connect people with each other whenever, wherever they want.
 
 You can either create your own room or join one if authorised by the Host.
 
+<p align="center">
+    <img height="600px" src="./public/assets/home.png">
+</p>
+<br>
+
 
 # Features
+
