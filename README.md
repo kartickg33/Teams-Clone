@@ -4,7 +4,7 @@
 
 <h1>Teams</h2>
 
-Teams is a platform to connect people with each other whenever, wherever they want.
+Teams is a platform for people to connect with each other whenever, wherever they want.
 
 You can either create your own room or join one if authorised by the Host.
 
@@ -16,3 +16,20 @@ You can either create your own room or join one if authorised by the Host.
 
 # Features
 
+## User Authentication
+
+Fast and Easy User Authentication using Passport JS.
+
+### Register
+
+<p align="center">
+    <img src="./public/assets/register.png">
+</p>
+<br>
+
+### Login
+
+<p align="center">
+    <img src="./public/assets/login.png">
+</p>
+<br>
