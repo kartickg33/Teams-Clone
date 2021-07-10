@@ -21,7 +21,7 @@ if(process.env.NODE_ENV!=="production"){
     require("dotenv").config();
 }
 const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/Teams-Clone'; //database
-const port = parseInt(process.env.PORT);
+const port = parseInt(process.env.PORT) || 3000;
 
 
 const io = require('socket.io')(server);

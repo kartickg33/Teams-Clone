@@ -63,6 +63,7 @@ The email id of the attendees added by the host will be displayed below the "Att
 Finally, the host can click the "Start Meeting" button to start the meeting.
 
 
+
 ## Video Calling
 
 When the host clicks on "Start Meeting", he will be directed to a Private Room with a unique ID which can only be accessed by the attendees added by him/her.
@@ -160,3 +161,23 @@ If a user tries to enter a room Id that does not exist i.e the room has not been
 </p>
 <br>
 
+
+# Tech Stack
+
+HTML, CSS, NODEJS, JavaScript, MongoDB, Socket.io, PeerJS, PassportJS
+
+
+# How to Start
+
+Use the following commands in the terminal:
+
+```bash
+$ npm install --save   // Install dependencies
+$ node app.js          // Start app.js
+```
+
+# Additional Notes
+
+To successfully use Teams on your local machine, take note of the following things for "room_details.js" file:-
+
+1. In line numbers 22, 31 and 37 change only the main url to 'http:localhost:3000/' for Room Creation to work successfully.   
