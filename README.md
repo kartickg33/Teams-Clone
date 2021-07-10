@@ -9,7 +9,7 @@ Teams is a platform to connect people with each other whenever, wherever they wa
 You can either create your own room or join one if authorised by the Host.
 
 <p align="center">
-    <img height="600px" src="./public/assets/home.png">
+    <img src="./public/assets/home.png">
 </p>
 <br>
 
