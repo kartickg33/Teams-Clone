@@ -60,6 +60,12 @@ In this feature, as the host starts typing in the email id of the attendee, the 
 
 Multiple attendees can be added to the meeting similarly.
 
+<p align="center">
+    <img src="./public/assets/room_3.png">
+</p>
+<br>
+
+
 The email id of the attendees added by the host will be displayed below the "Attendees" heading.
 
 Finally, the host can click the "Start Meeting" button to start the meeting.
