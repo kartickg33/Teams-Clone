@@ -33,3 +33,28 @@ Fast and Easy User Authentication using Passport JS.
     <img src="./public/assets/login.png">
 </p>
 <br>
+
+## Private Rooms
+
+User(Host) can create a private room with a unique Room ID that can be accessed only by the users authorised by the host.
+
+The Host can add multiple users to his/her room at the same time.
+
+<p align="center">
+    <img src="./public/assets/create_room.png">
+</p>
+<br>
+
+## Auto Suggest
+
+<p align="center">
+    <img src="./public/assets/room_2.png">
+</p>
+<br>
+
+In this feature, as the host starts typing in the email id of the attendee, the data based on his search string will be displayed for his/her convenience. The host can click on the email id of the attendee displayed as a suggestion and then click the "Add Attendee" button.
+
+Multiple attendees can be added to the meeting similarly.
+
+Finally, the host can click the "Start Meeting" button to start the meeting. 
+
