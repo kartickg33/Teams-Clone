@@ -38,7 +38,9 @@ Fast and Easy User Authentication using Passport JS.
 
 User(Host) can create a private room with a unique Room ID that can be accessed only by the users authorised by the host.
 
-The Host can add multiple users to his/her room at the same time.
+The Host can add multiple users to his/her room at the same time by entering the email id of the attendees.
+
+The username and email id of the host will be displayed when a room is being created.
 
 <p align="center">
     <img src="./public/assets/create_room.png">
