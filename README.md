@@ -77,7 +77,7 @@ Finally, the host can click the "Start Meeting" button to start the meeting.
 When the host clicks on "Start Meeting", he will be directed to a Private Room with a unique ID which can only be accessed by the attendees added by him/her.
 
 <p align="center">
-    <img src="./public/assets/start_meet.png">
+    <img src="./public/assets/video_new_1.png">
 </p>
 <br>
 
@@ -86,7 +86,7 @@ When the host clicks on "Start Meeting", he will be directed to a Private Room w
 Whenever a new user joins a meeting in a particular room, all the other users of that room will be notified of his/her joining.
 
 <p align="center">
-    <img src="./public/assets/video_room_2.png">
+    <img src="./public/assets/join_notify.png">
 </p>
 <br>
 
@@ -105,7 +105,7 @@ A "Red" colored camera button with respective icon denotes that the video of the
 A "Green" colored camera button with respective icon denotes that the video of the user is turned on.
 
 <p align="center">
-    <img src="./public/assets/video_func.png">
+    <img src="./public/assets/video_new_2.png">
 </p>
 <br>
 
@@ -119,12 +119,17 @@ A user can send a message by clicking on the "send" icon or pressing "Enter" on 
 The message will be received by all other users in that room.
 
 <p align="center">
-    <img src="./public/assets/video_room_3.png">
+    <img src="./public/assets/chat_1.png">
 </p>
 <br>
 
 <p align="center">
-    <img src="./public/assets/video_room_4.png">
+    <img src="./public/assets/chat_2.png">
+</p>
+<br>
+
+<p align="center">
+    <img src="./public/assets/chat_3.png">
 </p>
 <br>
 
@@ -136,7 +141,7 @@ A user can leave the meeting by clicking on the "End Call" button.
 When a user leaves a meeting, all the other users of that room will be notified of his/her exit.
 
 <p align="center">
-    <img src="./public/assets/end_call_1.png">
+    <img src="./public/assets/leave.png">
 </p>
 <br>
 
@@ -155,7 +160,7 @@ All meeting rooms are created with User Authorisation i.e Only those users will 
 If a non-authorised user tries to enter a private room, he/she will be notified about the same.
 
 <p align="center">
-    <img src="./public/assets/no_access.png">
+    <img src="./public/assets/not_access.png">
 </p>
 <br>
 
